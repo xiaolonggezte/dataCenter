@@ -24,5 +24,11 @@
         - 游客：按周及实验室查询课表，实验设备借还查询；
         
 - 数据库设计
+    * schame.sql
+        * user
+        * lab
+        * device
+        * device_category
+        * 
     * 
         
