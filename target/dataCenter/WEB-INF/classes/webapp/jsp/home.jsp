@@ -25,10 +25,8 @@
         <ul class="layui-nav layui-layout-right">
                 游客
             <c:if test="${ userName eq null or userName eq 'null'}">
-                <li class="layui-nav-item">
-                    <a href="/accounts/login">
-                        游客请登录
-                    </a>
+                <li id="login" class="layui-nav-item">
+                    游客请登录
                 </li>
             </c:if>
 
@@ -97,9 +95,10 @@
 
     <div class="layui-body">
         <!-- 内容主体区域 -->
+        <div id="matter_login" style="display: block">
+            <jsp:include page="login.jsp"></jsp:include>
+        </div>
 
-
-        <div style="padding: 15px;">内容主体区域</div>
     </div>
 
     <div class="layui-footer" align="center">
@@ -113,6 +112,12 @@
     layui.use('element', function(){
         var element = layui.element;
 
+    });
+    $(document).ready(function () {
+
+        $("#login").click(function () {
+            document.getElementById("matter_login").style.display = "block";
+        });
     });
 </script>
 </body>
