@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,7 +59,9 @@
                         <%--<dd><a href="javascript:;">列表一</a></dd>--%>
                         <%--<dd><a href="javascript:;">列表二</a></dd>--%>
                         <%--TODO 增加admin限制--%>
-                        <dd><a href="javascript:;">编辑</a></dd>
+                        <c:if test="{ ${user} != null}">
+                            <dd><a href="javascript:;">编辑</a></dd>
+                        </c:if>
                         <%--<dd><a href="">超链接</a></dd>--%>
                     </dl>
                 </li>

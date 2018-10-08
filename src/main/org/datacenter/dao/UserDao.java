@@ -1,7 +1,7 @@
 package org.datacenter.dao;
 
-import org.datacenter.entity.User;
 import org.apache.ibatis.annotations.Param;
+import org.datacenter.entity.User;
 
 /**
  * @Author: xiaolong
@@ -11,4 +11,5 @@ import org.apache.ibatis.annotations.Param;
 public interface UserDao {
 
     User queryById(@Param("userId") int userId);
+    User queryByName(@Param("userName") String userName);
 }

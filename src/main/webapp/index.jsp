@@ -9,6 +9,6 @@
 <!DOCTYPE html>
 <html>
 <%
-    response.sendRedirect("/jsp/home.jsp");
+    response.sendRedirect("/datacenter/home");
 %>
 </html>

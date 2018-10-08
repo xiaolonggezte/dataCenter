@@ -11,4 +11,9 @@
         WHERE user_id = #{userId}
     </select>
 
+    <select id="queryByName" resultType="User" parameterType="String">
+        SELECT *
+        FROM user
+        WHERE user_name = #{userName}
+    </select>
 </mapper>
