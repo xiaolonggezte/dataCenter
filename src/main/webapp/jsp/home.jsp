@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
@@ -17,35 +18,34 @@
     <link rel="stylesheet" href="../layui/css/layui.css">
 </head>
 <body class="layui-layout-body">
+
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
         <div class="layui-logo">大数据学院实验中心</div>
-        <!-- 头部区域（可配合layui已有的水平导航） -->
-        <%--<ul class="layui-nav layui-layout-left">--%>
-            <%--<li class="layui-nav-item"><a href="">控制台</a></li>--%>
-            <%--<li class="layui-nav-item"><a href="">商品管理</a></li>--%>
-            <%--<li class="layui-nav-item"><a href="">用户</a></li>--%>
-            <%--<li class="layui-nav-item">--%>
-                <%--<a href="javascript:;">其它系统</a>--%>
-                <%--<dl class="layui-nav-child">--%>
-                    <%--<dd><a href="">邮件管理</a></dd>--%>
-                    <%--<dd><a href="">消息管理</a></dd>--%>
-                    <%--<dd><a href="">授权管理</a></dd>--%>
-                <%--</dl>--%>
-            <%--</li>--%>
-        <%--</ul>--%>
         <ul class="layui-nav layui-layout-right">
-            <li class="layui-nav-item">
-                <a href="javascript:;">
-                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-                    贤心
-                </a>
-                <dl class="layui-nav-child">
-                    <dd><a href="">基本资料</a></dd>
-                    <dd><a href="">安全设置</a></dd>
-                </dl>
-            </li>
-            <li class="layui-nav-item"><a href="">注销</a></li>
+                游客
+            <c:if test="${ userName eq null or userName eq 'null'}">
+                <li class="layui-nav-item">
+                    <a href="/accounts/login">
+                        游客请登录
+                    </a>
+                </li>
+            </c:if>
+
+            <%--管理员--%>
+            <c:if test="${ userName ne null && userName ne 'null'}" >
+                    <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                            ${userName} 欢迎您
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">基本资料</a></dd>
+                        <dd><a href="">安全设置</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="/accounts/loginout">注销</a></li>
+            </c:if>
         </ul>
     </div>
 
@@ -59,7 +59,7 @@
                         <%--<dd><a href="javascript:;">列表一</a></dd>--%>
                         <%--<dd><a href="javascript:;">列表二</a></dd>--%>
                         <%--TODO 增加admin限制--%>
-                        <c:if test="{ ${user} != null}">
+                            <c:if test="${ userName ne null && userName ne 'null'}" >
                             <dd><a href="javascript:;">编辑</a></dd>
                         </c:if>
                         <%--<dd><a href="">超链接</a></dd>--%>
@@ -71,9 +71,11 @@
                         <dd><a href="javascript:;">设备使用情况</a></dd>
                         <dd><a href="javascript:;">设备查询</a></dd>
                         <%--TODO admin限制--%>
-                        <dd><a href="javascript:;">导入资产数据</a></dd>
-                        <dd><a href="javascript:;">编辑资产数据</a></dd>
-                        <dd><a href="javascript:;">设备清单查询</a></dd>
+                        <c:if test="${ userName ne null && userName ne 'null'}" >
+                            <dd><a href="javascript:;">导入资产数据</a></dd>
+                            <dd><a href="javascript:;">编辑资产数据</a></dd>
+                            <dd><a href="javascript:;">设备清单查询</a></dd>
+                        </c:if>
                     </dl>
                 </li>
                 <li class="layui-nav-item layui-nav-itemed">
@@ -82,9 +84,11 @@
                         <dd><a href="javascript:;">课表查询</a></dd>
                         <dd><a href="javascript:;">查询设备归还情况</a></dd>
                         <%--TODO admin限制--%>
-                        <dd><a href="javascript:;">导入课表</a></dd>
-                        <dd><a href="javascript:;">编辑课表</a></dd>
-                        <dd><a href="javascript:;">设备归还管理</a></dd>
+                        <c:if test="${ userName ne null && userName ne 'null'}" >
+                            <dd><a href="javascript:;">导入课表</a></dd>
+                            <dd><a href="javascript:;">编辑课表</a></dd>
+                            <dd><a href="javascript:;">设备归还管理</a></dd>
+                        </c:if>
                     </dl>
                 </li>
             </ul>
@@ -93,6 +97,8 @@
 
     <div class="layui-body">
         <!-- 内容主体区域 -->
+
+
         <div style="padding: 15px;">内容主体区域</div>
     </div>
 
