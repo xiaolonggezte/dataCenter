@@ -21,7 +21,7 @@
 <body>
 <div class="login-main">
     <header class="layui-elip">后台登录</header>
-    <form class="layui-form">
+    <form action="/accounts/login" method="post" class="layui-form">
         <div class="layui-input-inline">
             <input type="text" name="account" required  lay-verify="required" placeholder="用户名" autocomplete="off" class="layui-input">
         </div>
@@ -43,9 +43,9 @@
 </div>
 <script src="../layui/layui.js"></script>
 <script type="text/javascript">
-    layui.use(['form'], function () {
-        var form = layui.form(), $ = layui.jquery;
-    });
+    // layui.use(['form'], function () {
+    //     var form = layui.form(), $ = layui.jquery;
+    // });
 </script>
 </body>
 </html>

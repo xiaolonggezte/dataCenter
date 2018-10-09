@@ -28,5 +28,10 @@ public class UserDaoTest {
         User user = userDao.queryByName("xiaolong");
         System.out.println(user);
     }
+    @Test
+    public void queryByNamePasswordTest() {
+        User user = userDao.queryByNamePassword("admin","acmicpc");
+        System.out.println(user);
+    }
 
 }

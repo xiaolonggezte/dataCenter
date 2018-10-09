@@ -11,4 +11,5 @@ import org.datacenter.entity.User;
 public interface UserService {
 
     User queryByName(String userName);
+    boolean queryByNamePassword(String userName,String password);
 }

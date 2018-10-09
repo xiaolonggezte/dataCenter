@@ -26,7 +26,9 @@
                 游客
             <c:if test="${ userName eq null or userName eq 'null'}">
                 <li id="login" class="layui-nav-item">
+                    <a href="javascript:;">
                     游客请登录
+                    </a>
                 </li>
             </c:if>
 
@@ -35,7 +37,7 @@
                     <li class="layui-nav-item">
                     <a href="javascript:;">
                         <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-                            ${userName} 欢迎您
+                            ${userName} &nbsp;&nbsp;欢迎您
                     </a>
                     <dl class="layui-nav-child">
                         <dd><a href="">基本资料</a></dd>
@@ -95,7 +97,7 @@
 
     <div class="layui-body">
         <!-- 内容主体区域 -->
-        <div id="matter_login" style="display: block">
+        <div id="matter_login" style="display: none">
             <jsp:include page="login.jsp"></jsp:include>
         </div>
 
@@ -107,6 +109,7 @@
     </div>
 </div>
 <script src="../layui/layui.js"></script>
+<script src="../js/jquery-3.3.1.min.js"></script>
 <script>
     //JavaScript代码区域
     layui.use('element', function(){

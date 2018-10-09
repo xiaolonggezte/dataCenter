@@ -12,4 +12,6 @@ public interface UserDao {
 
     User queryById(@Param("userId") int userId);
     User queryByName(@Param("userName") String userName);
+
+    User queryByNamePassword(@Param("userName") String userName, @Param("password") String password);
 }

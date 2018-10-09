@@ -25,5 +25,10 @@ public class UserServiceImplTest {
         User user = userService.queryByName("admin");
         System.out.println(user);
     }
+    @Test
+    public void queryByNamePasswordTest() {
+        boolean check = userService.queryByNamePassword("admin","acmicpc");
+        System.out.println(check ? "校验成功" : "校验失败");
+    }
 
 }

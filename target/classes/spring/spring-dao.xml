@@ -16,10 +16,10 @@
         <property name="password" value="${jdbc.password}" />
 
         <!--c3p0私有属性-->
-        <property name="maxPoolSize" value="60"/>
-        <property name="minPoolSize" value="20"/>
+        <property name="maxPoolSize" value="70"/>
+        <property name="minPoolSize" value="40"/>
         <!--关闭连接后不自动commit-->
-        <property name="autoCommitOnClose" value="false"/>
+        <property name="autoCommitOnClose" value="true"/>
         <!--设置超时时间-->
         <property name="checkoutTimeout" value="1000"/>
         <!--失败重试次数-->

@@ -19,10 +19,15 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
-
     public User queryByName(String userName) {
         User user = userDao.queryByName(userName);
         return user;
+    }
+
+    public boolean queryByNamePassword(String userName, String password) {
+        User user = userDao.queryByNamePassword(userName,password);
+        logger.info("user = {}",user);
+        return user != null;
     }
 
 }

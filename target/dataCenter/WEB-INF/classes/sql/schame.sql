@@ -7,6 +7,7 @@ USE datacenter;
 CREATE TABLE `user` (
   `user_id` INT PRIMARY KEY AUTO_INCREMENT COMMENT '用户id',
   `user_name` VARCHAR(50)  UNIQUE NOT NULL COMMENT '用户姓名',
+  `password` VARCHAR(50) NOT NULL COMMENT '密码',
   `user_email` VARCHAR(50) DEFAULT NULL COMMENT '用户邮箱',
   `user_tel` VARCHAR(11) DEFAULT NULL COMMENT '用户电话',
   `user_admin` INT DEFAULT 0 COMMENT '用户权限,0代表普通用户,1代表管理员'
