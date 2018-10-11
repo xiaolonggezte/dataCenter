@@ -1,4 +1,9 @@
-
+<%--
+  User: acm-icpc
+  Date: 18-10-6
+  Time: 下午9:52
+  主界面代码
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -7,63 +12,141 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>device_input</title>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="stylesheet" href="../layui/css/layui.css"  media="all">
-    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+    <title>实验中心</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../markdown_editor/examples/css/style.css" />
+    <link rel="stylesheet" href="../markdown_editor/css/editormd.css" />
+    <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
 </head>
-<body>
-<div class="layui-upload" style="margin-left: 30px;margin-right: 30px;">
-    <div style="margin-top: 171px;float: left;"><label class="layui-form-label">店铺图片</label></div>
-    <div class="layui-upload-list" style="float: left;">
-        <img class="layui-upload-img" id="demo1" style="width: 200px;height: 200px;margin: 0 10px 10px 0;">
-        <p id="demoText"></p>
-        <input type="hidden" name="pic" id="pic"  value="${store.pic }">
+<body class="layui-layout-body">
+
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">大数据学院实验中心</div>
+        <ul class="layui-nav layui-layout-right">
+            游客
+            <c:if test="${ userName eq null or userName eq 'null'}">
+                <li id="login" class="layui-nav-item">
+                    <a href="javascript:;">
+                        游客请登录
+                    </a>
+                </li>
+            </c:if>
+
+            <%--管理员--%>
+            <c:if test="${ userName ne null && userName ne 'null'}" >
+                <li class="layui-nav-item">
+                    <a href="javascript:;">
+                        <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                            ${userName} &nbsp;&nbsp;欢迎您
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="">基本资料</a></dd>
+                        <dd><a href="">安全设置</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="/accounts/loginout">注销</a></li>
+            </c:if>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">实验中心</a>
+                    <dl class="layui-nav-child">
+                        <%--<dd><a href="javascript:;">列表一</a></dd>--%>
+                        <%--<dd><a href="javascript:;">列表二</a></dd>--%>
+                        <%--TODO 增加admin限制--%>
+                        <dd id="content_view"><a href="javascript:;">介绍说明</a></dd>
+                        <c:if test="${ userName ne null && userName ne 'null'}" >
+                            <dd id="content_edit"><a href="javascript:;">编辑</a></dd>
+                        </c:if>
+                        <%--<dd><a href="">超链接</a></dd>--%>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">资产管理</a>
+                    <dl class="layui-nav-child">
+                        <dd id="device_view"><a href="javascript:;">设备使用归还情况查询</a></dd>
+                        <%--TODO admin限制--%>
+                        <c:if test="${ userName ne null && userName ne 'null'}" >
+                            <dd id="device_input"><a href="javascript:;">导入资产数据</a></dd>
+                            <dd id="device_edit"><a href="javascript:;">资产归还查询编辑</a></dd>
+                        </c:if>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a href="javascript:;">资源使用情况</a>
+                    <dl class="layui-nav-child">
+                        <dd id="course_view"><a href="javascript:;">课表查询</a></dd>
+                        <%--TODO admin限制--%>
+                        <c:if test="${ userName ne null && userName ne 'null'}" >
+                            <dd id="course_input"><a href="javascript:;">导入课表</a></dd>
+                            <dd id="course_edit"><a href="javascript:;">编辑课表</a></dd>
+                        </c:if>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+
+        <%--<div id="m_content_edit" style="display: block">--%>
+            <%--<jsp:include page="test2.jsp"></jsp:include>--%>
+        <%--</div>--%>
+
 
     </div>
-    <div style="float: left;margin-top: 171px;"><button type="button" class="layui-btn" id="test1">上传图片</button></div>
+
+    <div class="layui-footer" align="center">
+        <!-- 底部固定区域 -->
+        Version 1.0 || Developed & Design By Lazines
+    </div>
 </div>
 
+<script src="../markdown_editor/examples/js/jquery.min.js"></script>
+<script src="../markdown_editor/lib/marked.min.js"></script>
+<script src="../markdown_editor/lib/prettify.min.js"></script>
+<script src="../markdown_editor/lib/raphael.min.js"></script>
+<script src="../markdown_editor/lib/underscore.min.js"></script>
+<script src="../markdown_editor/lib/sequence-diagram.min.js"></script>
+<script src="../markdown_editor/lib/flowchart.min.js"></script>
+<script src="../markdown_editor/lib/jquery.flowchart.min.js"></script>
+<script src="../markdown_editor/editormd.js"></script>
+<script src="../markdown_editor/examples/js/jquery.min.js"></script>
 <script src="../layui/layui.js" charset="utf-8"></script>
 <script>
-    layui.use(['form','layer','table','upload'], function(){
-        var table = layui.table
-            ,form = layui.form,upload = layui.upload;
-        alert("one");
-        var uploadInst = upload.render({
-            elem: '#test1'
-            ,url: '/device/upload'
-            // ,accept:'file'
-            ,before: function(obj){
-                alert("two");
-                //预读本地文件示例，不支持ie8
-                obj.preview(function(index, file, result){
-                    $('#demo1').attr('src', result); //图片链接（base64）
-                });
-            }
-            ,done: function(res){
-                alert("four");
-                //如果上传失败
-                if(res.code > 0){//自定义返回失败
-                    return layer.msg('上传失败');
-                }else{
-                    $('#pic').val(res.img);
-                }
-                //上传成功
-            }
-            ,error: function(){
-                alert("there");
-                //演示失败状态，并实现重传
-                var demoText = $('#demoText');
-                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
-                demoText.find('.demo-reload').on('click', function(){
-                    uploadInst.upload();
-                });
+    // $(document).ready(function () {
+    //    $("#content_edit").click(function () {
+    //        document.getElementById("m_content_edit").innerHTML.style.display = "block";
+    //    });
+    // });
+</script>
+
+<script>
+    $(function () {
+        // 将temp.md的内容加载到content.jsp中
+        $.ajax({ url: "./temp.md",
+            async:false,
+            success: function(md){
+                document.getElementById("md").innerHTML = md;
             }
         });
 
+        editormd.markdownToHTML("test-editormd", {
+            htmlDecode      : "style,script,iframe",
+            emoji           : true,
+            taskList        : true,
+            tex             : true,  // 默认不解析
+            flowChart       : true,  // 默认不解析
+            sequenceDiagram : true  // 默认不解析
+        });
     });
 
 </script>

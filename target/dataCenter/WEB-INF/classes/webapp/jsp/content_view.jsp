@@ -6,25 +6,15 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>课表编辑</title>
+    <title>内容查看</title>
     <link rel="stylesheet" href="../layui/css/layui.css">
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 
-<div id="test-editormd">
+<div id="content_view_jsp">
     　　<textarea id = "md" style="display:none;" placeholder="markdown语言"># Test
 
-<%--#First Blood--%>
-<%--- success is in the far soon--%>
-
-<%--```java--%>
-<%--public class Main {--%>
-    <%--public static void main(String[] args) {--%>
-        <%--System.out.println("Hello World");--%>
-    <%--}--%>
-<%--}--%>
-<%--```--%>
 
         </textarea>
 </div>
@@ -42,14 +32,16 @@
 <script>
     $(function () {
         // 将temp.md的内容加载到content.jsp中
-        $.ajax({ url: "./temp.md",
+        $.ajax({
+            url: "./temp.md",
             async:false,
             success: function(md){
+                // alert(md);
                 document.getElementById("md").innerHTML = md;
             }
         });
 
-        editormd.markdownToHTML("test-editormd", {
+        editormd.markdownToHTML("content_view_jsp", {
             htmlDecode      : "style,script,iframe",
             emoji           : true,
             taskList        : true,

@@ -15,6 +15,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>实验中心</title>
     <link rel="stylesheet" href="../layui/css/layui.css">
+    <link rel="stylesheet" href="../markdown_editor/examples/css/style.css" />
+    <link rel="stylesheet" href="../markdown_editor/css/editormd.css" />
+    <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
 </head>
 <body class="layui-layout-body">
 
@@ -128,8 +131,18 @@
         Version 1.0 || Developed & Design By Lazines
     </div>
 </div>
-<script src="../layui/layui.js"></script>
-<script src="../js/jquery-3.3.1.min.js"></script>
+
+<script src="../markdown_editor/examples/js/jquery.min.js"></script>
+<script src="../markdown_editor/lib/marked.min.js"></script>
+<script src="../markdown_editor/lib/prettify.min.js"></script>
+<script src="../markdown_editor/lib/raphael.min.js"></script>
+<script src="../markdown_editor/lib/underscore.min.js"></script>
+<script src="../markdown_editor/lib/sequence-diagram.min.js"></script>
+<script src="../markdown_editor/lib/flowchart.min.js"></script>
+<script src="../markdown_editor/lib/jquery.flowchart.min.js"></script>
+<script src="../markdown_editor/editormd.js"></script>
+<script src="../markdown_editor/examples/js/jquery.min.js"></script>
+<script src="../layui/layui.js" charset="utf-8"></script>
 <script>
     //JavaScript代码区域
     layui.use('element', function(){
@@ -190,7 +203,7 @@
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
-<script src="../layui/layui.js" charset="utf-8"></script>
+
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
     layui.use('table', function(){
@@ -235,26 +248,125 @@
                     "data": res //解析数据列表
                 };
             }
-            // ,data: [{
-            //     "device_unit_id": "10001"
-            //     ,"device_unit_name": "杜甫"
-            //     ,"device_number": "xianxin@layui.com"
-            //     ,"device_category_number": "男"
-            //     ,"device_name": "浙江杭州"
-            //     ,"device_version": "人生恰似一场修行"
-            //     ,"device_price": "116"
-            //     ,"device_menufactor": "192.168.0.8"
-            //     ,"device_date": "108"
-            //     ,"device_getter": "2016-10-14"
-            //     ,"device_subject": "108"
-            //     ,"device_use_deriction": "2016-10-14"
-            //     ,"device_room": "108"
-            //     ,"device_hander": "2016-10-14"
-            //     ,"is_used": "2016-10-14"
-            // }]
         });
     });
 </script>
 
+<%--device_view--%>
+
+
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+
+        //展示已知数据
+        table.render({
+            elem: '#demo_view'
+            ,height: 420
+            ,url:'/data/device'
+            ,title: '资产数据表'
+            ,page: true //开启分页
+            // ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+            // ,totalRow: true //开启合计行
+            ,cellMinWidth: 100
+            ,cols: [[ //标题栏
+                {field: 'deviceUnitId', title: '领用单位', align: 'center'},
+                {field: 'deviceUnitName', title: '领用单位名称', align: 'center', },
+                {field: 'deviceNumber', title: '仪器编号', align: 'center', sort:true},
+                {field: 'deviceCategory_number', title: '分类号', align: 'center',sort:true},
+                {field: 'deviceName', title: '仪器名称', align: 'center'},
+                {field: 'deviceVersion', title: '仪器型号', align: 'center'},
+                {field: 'devicePrice', title: '单价', align: 'center'},
+                {field: 'deviceMenufactor', title: '生产厂家', align: 'center'},
+                {field: 'deviceDate', title: '购置日期', align: 'center', sort:true },
+                {field: 'deviceGetter', title: '领用人', align: 'center'},
+                {field: 'deviceSubject', title: '经费科目名', align: 'center'},
+                {field: 'deviceUse_deriction', title: '使用方向', align: 'center', sort:true},
+                {field: 'deviceRoom', title: '使用房间', align: 'center',sort:true},
+                {field: 'deviceHander', title: '经手人', align: 'center'},
+                {field: 'deviceStatus', title: '设备状态', align: 'center'},
+                {field: 'isUsed', title: '设备使用情况', align: 'center'}
+
+            ]]
+            ,parseData: function(res){ //res 即为原始返回的数据
+                return {
+                    "code": 0, //解析接口状态
+                    // "msg": res.message, //解析提示文本
+                    // "count": res.total, //解析数据长度
+                    "data": res //解析数据列表
+                };
+            }
+        });
+    });
+</script>
+<%--content_edit--%>
+<script type="text/javascript">
+    var testEditor;
+
+    $(function() {
+        testEditor = editormd("content_edit_jsp", {
+            width           : "90%",
+            autoHeight      : true,
+            path            : "../markdown_editor/lib/",
+            htmlDecode      : "style,script,iframe",
+            tex             : true,
+            emoji           : true,
+            taskList        : true,
+            flowChart       : true,
+            sequenceDiagram : true
+        });
+
+        $("#insert-btn").click(function(){
+            $.get("./temp.md", function(md){
+                testEditor.appendMarkdown(md);
+            });
+        });
+
+        $("#save-btn").click(function(){
+            var content = encodeURIComponent(testEditor.getMarkdown());
+            // alert(content);
+            $.ajax({
+                type:"POST",
+                url: "/content/update",
+                data: {"content":content},
+                async:false,
+                success: function(){
+                    console.log("success");
+                },
+                error: function(XMLHttpRequest,msg) {
+                    console.log(msg);
+                }
+            });
+            alert("保存成功");
+        });
+    });
+
+</script>
+<%--content_view--%>
+
+<script>
+    $(function () {
+        // 将temp.md的内容加载到content.jsp中
+        $.ajax({
+            url: "./temp.md",
+            async:false,
+            success: function(md){
+                // alert(md);
+                document.getElementById("md").innerHTML = md;
+            }
+        });
+
+        editormd.markdownToHTML("content_view_jsp", {
+            htmlDecode      : "style,script,iframe",
+            emoji           : true,
+            taskList        : true,
+            tex             : true,  // 默认不解析
+            flowChart       : true,  // 默认不解析
+            sequenceDiagram : true  // 默认不解析
+        });
+    });
+
+</script>
 </body>
 </html>

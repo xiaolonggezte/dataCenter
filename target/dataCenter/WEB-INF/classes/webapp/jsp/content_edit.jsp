@@ -18,12 +18,10 @@
         <button id="insert-btn">导入</button>
         <button id="save-btn">保存</button>
     </div>
-    <div id="test-editormd">
+    <div id="content_edit_jsp">
                 <textarea style="display:none;">
-
-
-# First Blood
-</textarea>
+                # Test
+                </textarea>
     </div>
 </div>
 <script src="../markdown_editor/examples/js/jquery.min.js"></script>
@@ -32,7 +30,7 @@
     var testEditor;
 
     $(function() {
-        testEditor = editormd("test-editormd", {
+        testEditor = editormd("content_edit_jsp", {
             width           : "90%",
             autoHeight      : true,
             path            : "../markdown_editor/lib/",
@@ -52,7 +50,7 @@
 
         $("#save-btn").click(function(){
             var content = encodeURIComponent(testEditor.getMarkdown());
-            alert(content);
+            // alert(content);
             $.ajax({
                 type:"POST",
                 url: "/content/update",
@@ -65,9 +63,11 @@
                     console.log(msg);
                 }
             });
+            alert("保存成功");
         });
     });
 
 </script>
+
 </body>
 </html>
