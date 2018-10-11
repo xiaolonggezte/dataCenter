@@ -42,7 +42,7 @@ CREATE TABLE `device` (
 
 
 CREATE TABLE `course` (
-  `course_id` INT PRIMARY KEY AUTO_INCREMENT COMMENT '用户id',
+  `course_id` INT PRIMARY KEY AUTO_INCREMENT COMMENT '课表id',
   `course_unit` VARCHAR(50) DEFAULT NULL COMMENT '开课单位',
   `course_number` VARCHAR(20) DEFAULT NULL COMMENT '课程编号',
   `course_name` VARCHAR(50) DEFAULT NULL COMMENT '课程名称',
@@ -55,7 +55,7 @@ CREATE TABLE `course` (
   `course_techer` VARCHAR(20) COMMENT '指导老师',
   `course_class` VARCHAR(20) COMMENT '学生班级',
   `course_count` INT COMMENT '学生人数',
-  `course_is_close` VARCHAR(10) COMMENT '是否停课'
+  `course_is_close` VARCHAR(10) DEFAULT '否' COMMENT '是否停课'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT '课表';
 
 

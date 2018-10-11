@@ -1,0 +1,86 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="org.datacenter.dao.DeviceDao">
+    <!--目的：为Dao方法一共sql语句-->
+    <select id="queryAll" resultType="Device">
+        SELECT *
+        FROM `device`
+        ORDER BY `device_id`
+        LIMIT #{offset},#{limit};
+    </select>
+
+    <select id="insertOne">
+        INSERT ignore INTO
+        `device`(
+            device_category_id,
+            device_unit_id,
+            device_unit_name,
+            device_number,
+            device_category_number,
+            device_name,
+            device_version,
+            device_price,
+            device_menufactor,
+            device_date,
+            device_getter,
+            device_subject,
+            device_use_deriction,
+            device_room,
+            device_hander
+        )
+        VALUES(
+            #{one.deviceCategoryId},
+            #{one.deviceUnitId},
+            #{one.deviceUnitName},
+            #{one.deviceNumber},
+            #{one.deviceCategoryNumber},
+            #{one.deviceName},
+            #{one.deviceVersion},
+            #{one.devicePrice},
+            #{one.deviceMenufactor},
+            #{one.deviceDate},
+            #{one.deviceGetter},
+            #{one.deviceSubject},
+            #{one.deviceUseDeriction},
+            #{one.deviceRoom},
+            #{one.deviceHander}
+        );
+    </select>
+
+    <!--device_id,is_used,device_status,device_category_id,device_unit_id,device_unit_name,device_number-->
+    <!--,device_category_number,device_name,device_version,device_price,device_menufactor,device_date,-->
+    <!--device_getter,device_subject,device_use_deriction,device_room,device_hander-->
+    <!--VALUES(-->
+    <!--one.deviceId,one.isUsed,one.deviceStatus,one.deviceCategoryId,one.deviceUnitId,one.deviceUnitName,one.deviceNumber-->
+    <!--,one.deviceCategoryNumber,one.deviceName,one.deviceVersion,one.devicePrice,one.deviceMenufactor,one.deviceDate,-->
+    <!--one.deviceGetter,one.deviceSubject,one.deviceUseDeriction,one.deviceRoom,one.deviceHander-->
+    <select id="updateOne">
+        UPDATE `device`
+        SET is_used = #{one.isUsed},
+            device_status = #{one.deviceStatus},
+            device_category_id = #{one.deviceCategoryId},
+            device_unit_id = #{one.deviceUnitId},
+            device_unit_name = #{one.deviceUnitName},
+            device_number = #{one.deviceNumber},
+            device_category_number = #{one.deviceCategoryNumber},
+            device_name = #{one.deviceName},
+            device_version = #{one.deviceVersion},
+            device_price = #{one.devicePrice},
+            device_menufactor = #{one.deviceMenufactor},
+            device_date = #{one.deviceDate},
+            device_getter = #{one.deviceGetter},
+            device_subject = #{one.deviceSubject},
+            device_use_deriction = #{one.deviceUseDeriction},
+            device_room = #{one.deviceRoom},
+            device_hander = #{one.deviceHander}
+        WHERE device_number = #{one.deviceNumber};
+    </select>
+    <select id="deleteOne">
+        DELETE
+        FROM `device`
+        WHERE device_number = #{one.deviceNumber};
+    </select>
+</mapper>

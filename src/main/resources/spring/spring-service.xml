@@ -11,6 +11,7 @@
 	   http://www.springframework.org/schema/tx/spring-tx.xsd">
     <!-- 扫描service包下的所有的类-->
     <context:component-scan base-package="org.datacenter.service" />
+    <context:component-scan base-package="org.datacenter.utils" />
     <!--配置事务管理器-->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <!--注入数据库连接池-->

@@ -1,0 +1,72 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="org.datacenter.dao.CourseDao">
+    <!--目的：为Dao方法一共sql语句-->
+    <select id="queryAll" resultType="Course">
+        SELECT *
+        FROM `course`
+        ORDER BY `course_id`
+        LIMIT #{offset},#{limit};
+    </select>
+
+
+    <select id="insertOne">
+        INSERT ignore INTO
+        `course`(
+              `course_unit`,
+              `course_number`,
+              `course_name`,
+              `course_project_number`,
+              `course_project_name`,
+              `course_week`,
+              `course_day`,
+              `course_node`,
+              `course_place`,
+              `course_techer`,
+              `course_class`,
+              `course_count`,
+              `course_is_close`
+        )
+        VALUES(
+            #{one.courseUnit},
+            #{one.courseNumber},
+            #{one.courseName},
+            #{one.courseProjectNumber},
+            #{one.courseProjectName},
+            #{one.courseWeek},
+            #{one.courseDay},
+            #{one.courseNode},
+            #{one.coursePlace},
+            #{one.courseTecher},
+            #{one.courseClass},
+            #{one.courseCoun},
+            #{one.courseIsClose}
+        );
+    </select>
+    <select id="updateOne">
+        UPDATE `course`
+        SET
+          `course_unit` = #{one.courseUnit},
+          `course_number` = #{one.courseNumber},
+          `course_name` = #{one.courseName},
+          `course_project_number` = #{one.courseProjectNumber},
+          `course_project_name` = #{one.courseProjectName},
+          `course_week` = #{one.courseWeek},
+          `course_day` = #{one.courseDay},
+          `course_node` = #{one.courseNode},
+          `course_place` = #{one.coursePlace},
+          `course_techer` = #{one.courseTecher},
+          `course_class` = #{one.courseClass},
+          `course_count` = #{one.courseCoun},
+          `course_is_close` = #{one.courseIsClose}
+        WHERE course_id = #{one.courseId};
+    </select>
+    <select id="deleteOne">
+        DELETE
+        FROM `course`
+        WHERE course_id = #{one.courseId};
+    </select>
+</mapper>

@@ -32,7 +32,7 @@ public class AccountManager {
 
         model.addAttribute("userName",account);
         session.setAttribute("userName",account);
-        session.setMaxInactiveInterval(60);
+        session.setMaxInactiveInterval(30 * 60);
         return checkAccount ? "success/login_success" : "error/login_error";
     }
     @RequestMapping("/accounts/loginout")
