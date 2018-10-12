@@ -31,23 +31,26 @@ public class DeviceController {
     private ReadExcel readExcel;
 
     @RequestMapping("/data/device")
-    public @ResponseBody List<Device> queryAll(@RequestParam("page") int page, @RequestParam("limit") int limit) {
-        logger.info("offset={},limit={}",page,limit);
+    public @ResponseBody List<Device> queryAll(@RequestParam("page") int page, @RequestParam("limit") int limit,
+                                               @RequestParam(value = "deviceNumber", required = false, defaultValue = "-1") int deviceNumber) {
+        logger.info("offset={},limit={}, deviceNumer={}",page,limit,deviceNumber);
         int offset = (page - 1) * limit;
-        return deviceService.queryAll(offset,limit);
+        return deviceService.queryAll(offset, limit, deviceNumber);
     }
     @RequestMapping(value = "/device/upload",method = RequestMethod.POST)
     @ResponseBody
     public LoadResponse deviceUpload(@RequestParam("file") MultipartFile file) {
         logger.info("start upload device_file");
-//        if(file==null) return new LoadResponse(404,"error");
-//        //获取文件名
-//        String name=file.getOriginalFilename();
-//        //进一步判断文件是否为空（即判断其大小是否为0或其名称是否为null）
-//        long size=file.getSize();
-//        if(name==null || ("").equals(name) && size==0) return new LoadResponse(404,"error");
-//
-//        List<Device> deviceList = readExcel.getDeviceList(file);
+        if(file==null) return new LoadResponse(404,"error");
+        //获取文件名
+        String name=file.getOriginalFilename();
+        //进一步判断文件是否为空（即判断其大小是否为0或其名称是否为null）
+        long size=file.getSize();
+        if(name==null || ("").equals(name) && size==0) return new LoadResponse(404,"error");
+
+        List<Device> deviceList = readExcel.getDeviceList(file);
+        logger.info("deviceList.size() = {}",deviceList.size());
+        logger.info("deviceList[0] ={}",deviceList.get(0));
         return new LoadResponse(0,"success");
     }
 

@@ -22,13 +22,13 @@ public class DeviceDaoTest {
     private DeviceDao deviceDao;
     @Test
     public void queryAllTest() {
-        List<Device> list = deviceDao.queryAll(0,10);
+        List<Device> list = deviceDao.queryAll(0,10,-1);
         System.out.println(list);
     }
     @Test
     public void insertOneTest() {
         Device device = new Device();
-        device.setDeviceNumber(2345);
+        device.setDeviceNumber("2345");
         device.setDeviceName("matebook");
 
         try {
@@ -41,7 +41,7 @@ public class DeviceDaoTest {
     @Test
     public void updateOneTest() {
         Device device = new Device();
-        device.setDeviceNumber(2345);
+        device.setDeviceNumber("2345");
         device.setDeviceName("matebook-fixed");
         try {
             deviceDao.updateOne(device);
@@ -53,7 +53,7 @@ public class DeviceDaoTest {
     @Test
     public void deleteOneTest() {
         Device device = new Device();
-        device.setDeviceNumber(2345);
+        device.setDeviceNumber("2345");
         device.setDeviceName("matebook-fixed");
         try {
             deviceDao.deleteOne(device);

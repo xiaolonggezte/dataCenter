@@ -11,6 +11,6 @@ import java.util.List;
  */
 
 public interface DeviceService {
-    List<Device> queryAll(int offset,int limit);
+    List<Device> queryAll(int offset,int limit, int deviceNumber);
     boolean insertAll(List<Device> deviceList);
 }

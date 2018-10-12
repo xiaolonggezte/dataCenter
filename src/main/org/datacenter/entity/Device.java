@@ -12,8 +12,8 @@ public class Device {
     private String deviceCategoryId;
     private int deviceUnitId;
     private String deviceUnitName;
-    private int deviceNumber;
-    private int deviceCategoryNumber;
+    private String deviceNumber;
+    private String deviceCategoryNumber;
     private String deviceName;
     private String deviceVersion;
     private float devicePrice;
@@ -98,19 +98,19 @@ public class Device {
         this.deviceUnitName = deviceUnitName;
     }
 
-    public int getDeviceNumber() {
+    public String getDeviceNumber() {
         return deviceNumber;
     }
 
-    public void setDeviceNumber(int deviceNumber) {
+    public void setDeviceNumber(String deviceNumber) {
         this.deviceNumber = deviceNumber;
     }
 
-    public int getDeviceCategoryNumber() {
+    public String getDeviceCategoryNumber() {
         return deviceCategoryNumber;
     }
 
-    public void setDeviceCategoryNumber(int deviceCategoryNumber) {
+    public void setDeviceCategoryNumber(String deviceCategoryNumber) {
         this.deviceCategoryNumber = deviceCategoryNumber;
     }
 

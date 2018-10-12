@@ -20,8 +20,15 @@
     </div>
     <div id="content_edit_jsp">
                 <textarea style="display:none;">
-                # Test
-                </textarea>
+
+
+
+
+
+
+
+
+</textarea>
     </div>
 </div>
 <script src="../markdown_editor/examples/js/jquery.min.js"></script>
@@ -31,7 +38,7 @@
 
     $(function() {
         testEditor = editormd("content_edit_jsp", {
-            width           : "90%",
+            width           : "70%",
             autoHeight      : true,
             path            : "../markdown_editor/lib/",
             htmlDecode      : "style,script,iframe",

@@ -8,6 +8,9 @@
     <select id="queryAll" resultType="Device">
         SELECT *
         FROM `device`
+        <if test="deviceNumber != -1">
+        WHERE device_number = #{deviceNumber}
+        </if>
         ORDER BY `device_id`
         LIMIT #{offset},#{limit};
     </select>

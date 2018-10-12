@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>layui</title>
+    <title>资产查看</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -13,6 +13,15 @@
 </head>
 <body>
 
+<div class="demoTable">
+    <hr/>
+    <hr/>
+    搜索仪器编号：
+    <div class="layui-inline">
+        <input class="layui-input" name="deviceNumber" id="demoReload" autocomplete="off">
+    </div>
+    <button class="layui-btn" data-type="reload">搜索</button>
+</div>
 <table class="layui-hide" id="demo_view" lay-filter="device_edit"></table>
 
 
@@ -33,9 +42,9 @@
             // ,totalRow: true //开启合计行
             ,cellMinWidth: 100
             ,cols: [[ //标题栏
+                {field: 'deviceNumber', title: '仪器编号', align: 'center', sort:true, fixed:'left' },
                 {field: 'deviceUnitId', title: '领用单位', align: 'center'},
                 {field: 'deviceUnitName', title: '领用单位名称', align: 'center', },
-                {field: 'deviceNumber', title: '仪器编号', align: 'center', sort:true},
                 {field: 'deviceCategory_number', title: '分类号', align: 'center',sort:true},
                 {field: 'deviceName', title: '仪器名称', align: 'center'},
                 {field: 'deviceVersion', title: '仪器型号', align: 'center'},
@@ -44,11 +53,11 @@
                 {field: 'deviceDate', title: '购置日期', align: 'center', sort:true },
                 {field: 'deviceGetter', title: '领用人', align: 'center'},
                 {field: 'deviceSubject', title: '经费科目名', align: 'center'},
-                {field: 'deviceUse_deriction', title: '使用方向', align: 'center', sort:true},
+                {field: 'deviceUseDeriction', title: '使用方向', align: 'center', sort:true},
                 {field: 'deviceRoom', title: '使用房间', align: 'center',sort:true},
                 {field: 'deviceHander', title: '经手人', align: 'center'},
                 {field: 'deviceStatus', title: '设备状态', align: 'center'},
-                {field: 'isUsed', title: '设备使用情况', align: 'center'}
+                {field: 'isUsed', title: '设备使用情况', align: 'center',fixed :'right'}
 
             ]]
             ,parseData: function(res){ //res 即为原始返回的数据
@@ -59,6 +68,30 @@
                     "data": res //解析数据列表
                 };
             }
+            ,id: 'testReload'
+        });
+        var $ = layui.$, active = {
+            reload: function() {
+                var demoReload = $('#demoReload');
+                // alert("reload");
+                // alert(demoReload.val());
+                //执行重载
+                table.reload('testReload', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        deviceNumber : demoReload.val()
+                    }
+                });
+            }
+        };
+
+        $('.demoTable .layui-btn').on('click', function(){
+            // alert("click");
+            var type = $(this).data('type');
+            // alert(type + "   ---->    " + active[type]);
+            active[type] ? active[type].call(this) : '';
         });
     });
 </script>

@@ -10,6 +10,9 @@ public class LoadResponse {
     private String msg;
     private String data;
 
+    public LoadResponse() {
+    }
+
     public LoadResponse(int code) {
         this.code = code;
     }

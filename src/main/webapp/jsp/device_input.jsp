@@ -46,7 +46,7 @@
                 }
             }
             ,error: function(res){
-                alert(res.responseText);
+                // alert(res.responseText);
                 //演示失败状态，并实现重传
                 var demoText = $('#demoText');
                 demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');

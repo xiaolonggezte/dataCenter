@@ -11,7 +11,7 @@ import java.util.List;
  * @Desription:
  */
 public interface DeviceDao {
-    List<Device> queryAll(@Param("offset") int offset,@Param("limit") int limit);
+    List<Device> queryAll(@Param("offset") int offset,@Param("limit") int limit, @Param("deviceNumber") int deviceNumber);
     void insertOne(@Param("one") Device device);
     void updateOne(@Param("one") Device device);
     void deleteOne(@Param("one") Device device);

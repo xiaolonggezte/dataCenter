@@ -38,9 +38,9 @@
             ,cellMinWidth: 100
             ,cols: [[ //标题栏
                 {type: 'checkbox', fixed: 'left',width:40},
+                {field: 'deviceNumber', title: '仪器编号', align: 'center', sort:true, fixed:'left' },
                 {field: 'deviceUnitId', title: '领用单位', align: 'center'},
                 {field: 'deviceUnitName', title: '领用单位名称', align: 'center', },
-                {field: 'deviceNumber', title: '仪器编号', align: 'center', sort:true},
                 {field: 'deviceCategory_number', title: '分类号', align: 'center',sort:true},
                 {field: 'deviceName', title: '仪器名称', align: 'center'},
                 {field: 'deviceVersion', title: '仪器型号', align: 'center'},
@@ -49,7 +49,7 @@
                 {field: 'deviceDate', title: '购置日期', align: 'center', sort:true },
                 {field: 'deviceGetter', title: '领用人', align: 'center'},
                 {field: 'deviceSubject', title: '经费科目名', align: 'center'},
-                {field: 'deviceUse_deriction', title: '使用方向', align: 'center', sort:true},
+                {field: 'deviceUseDeriction', title: '使用方向', align: 'center', sort:true},
                 {field: 'deviceRoom', title: '使用房间', align: 'center',sort:true},
                 {field: 'deviceHander', title: '经手人', align: 'center'},
                 {field: 'deviceStatus', title: '设备状态', align: 'center'},

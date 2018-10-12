@@ -20,8 +20,8 @@ public class DeviceServiceImpl implements DeviceService {
     Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private DeviceDao deviceDao;
-    public List<Device> queryAll(int offset,int limit) {
-        List<Device> list = deviceDao.queryAll(offset,limit);
+    public List<Device> queryAll(int offset,int limit,int deviceNumber) {
+        List<Device> list = deviceDao.queryAll(offset,limit,deviceNumber);
         logger.info("DeviceList={}",list);
         return list;
     }

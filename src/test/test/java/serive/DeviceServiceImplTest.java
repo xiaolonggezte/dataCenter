@@ -26,7 +26,7 @@ public class DeviceServiceImplTest {
 
     @Test
     public void queryAllTest() {
-        List<Device> list = deviceService.queryAll(0,10);
+        List<Device> list = deviceService.queryAll(0,10,-1);
         System.out.println(list);
     }
 }

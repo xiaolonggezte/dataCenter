@@ -97,8 +97,8 @@
     <div class="layui-body">
         <!-- 内容主体区域 -->
 
-        <%--<div id="m_content_edit" style="display: block">--%>
-            <%--<jsp:include page="test2.jsp"></jsp:include>--%>
+        <div id="m_content_edit" style="display: block">
+            <jsp:include page="test2.jsp"></jsp:include>
         <%--</div>--%>
 
 
@@ -129,26 +129,47 @@
     // });
 </script>
 
-<script>
-    $(function () {
-        // 将temp.md的内容加载到content.jsp中
-        $.ajax({ url: "./temp.md",
-            async:false,
-            success: function(md){
-                document.getElementById("md").innerHTML = md;
-            }
+    <script type="text/javascript">
+        var testEditor;
+
+        $(function() {
+            testEditor = editormd("content_edit_jsp", {
+                width           : "90%",
+                autoHeight      : true,
+                path            : "../markdown_editor/lib/",
+                htmlDecode      : "style,script,iframe",
+                tex             : true,
+                emoji           : true,
+                taskList        : true,
+                flowChart       : true,
+                sequenceDiagram : true
+            });
+
+            $("#insert-btn").click(function(){
+                $.get("./temp.md", function(md){
+                    testEditor.appendMarkdown(md);
+                });
+            });
+
+            $("#save-btn").click(function(){
+                var content = encodeURIComponent(testEditor.getMarkdown());
+                // alert(content);
+                $.ajax({
+                    type:"POST",
+                    url: "/content/update",
+                    data: {"content":content},
+                    async:false,
+                    success: function(){
+                        console.log("success");
+                    },
+                    error: function(XMLHttpRequest,msg) {
+                        console.log(msg);
+                    }
+                });
+                alert("保存成功");
+            });
         });
 
-        editormd.markdownToHTML("test-editormd", {
-            htmlDecode      : "style,script,iframe",
-            emoji           : true,
-            taskList        : true,
-            tex             : true,  // 默认不解析
-            flowChart       : true,  // 默认不解析
-            sequenceDiagram : true  // 默认不解析
-        });
-    });
-
-</script>
+    </script>
 </body>
 </html>

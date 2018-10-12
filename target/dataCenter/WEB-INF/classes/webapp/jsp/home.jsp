@@ -99,7 +99,7 @@
         <div id="m_login" style="display: none">
             <jsp:include page="login.jsp"></jsp:include>
         </div>
-        <div id="m_content_view" style="display: block">
+        <div id="m_content_view" style="display: none">
             <jsp:include page="content_view.jsp"></jsp:include>
         </div>
         <div id="m_device_view" style="display: none">
@@ -108,7 +108,7 @@
         <div id="m_course_view" style="display: none">
             <jsp:include page="course_view.jsp"></jsp:include>
         </div>
-        <div id="m_content_edit" style="display: none">
+        <div id="m_content_edit" style="display: block">
             <jsp:include page="content_edit.jsp"></jsp:include>
         </div>
         <div id="m_device_input" style="display: none">
@@ -204,7 +204,6 @@
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
-<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
     layui.use('table', function(){
         var table = layui.table;
@@ -301,6 +300,7 @@
     });
 </script>
 <%--content_edit--%>
+
 <script type="text/javascript">
     var testEditor;
 
