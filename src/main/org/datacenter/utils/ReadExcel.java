@@ -2,9 +2,7 @@ package org.datacenter.utils;
 
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.datacenter.entity.Course;
 import org.datacenter.entity.Device;
@@ -111,8 +109,58 @@ public class ReadExcel {
             Row row = sheet.getRow(i);
             course = new Course();
             if(row.getCell(0) != null) {
-
+                course.setCourseUnit(row.getCell(0).getStringCellValue());
             }
+            if(row.getCell(1) != null) {
+                course.setCourseNumber(row.getCell(1).getStringCellValue());
+            }
+
+            if(row.getCell(2) != null) {
+                course.setCourseName(row.getCell(2).getStringCellValue());
+            }
+
+            if(row.getCell(3) != null) {
+                course.setCourseProjectNumber(row.getCell(3).getStringCellValue());
+            }
+
+            if(row.getCell(4) != null) {
+                course.setCourseProjectName(row.getCell(4).getStringCellValue());
+            }
+
+            if(row.getCell(5) != null) {
+                course.setCourseWeek(row.getCell(5).getStringCellValue());
+            }
+
+            if(row.getCell(6) != null) {
+                course.setCourseDay(row.getCell(6).getStringCellValue());
+            }
+
+            if(row.getCell(7) != null) {
+                course.setCourseNode(row.getCell(7).getStringCellValue());
+            }
+
+            if(row.getCell(8) != null) {
+                course.setCoursePlace(row.getCell(8).getStringCellValue());
+            }
+
+            if(row.getCell(9) != null) {
+                course.setCourseTecher(row.getCell(9).getStringCellValue());
+            }
+
+            if(row.getCell(10) != null) {
+                course.setCourseClass(row.getCell(10).getStringCellValue());
+            }
+
+            if(row.getCell(11) != null) {
+                Cell cell = row.getCell(11);
+                cell.setCellType(CellType.STRING);
+                course.setCourseCount(Integer.parseInt(cell.getStringCellValue().trim()));
+            }
+
+            if(row.getCell(12) != null) {
+                course.setCourseIsClose(row.getCell(12).getStringCellValue());
+            }
+
             deviceList.add(course);
         }
         return deviceList;

@@ -22,7 +22,7 @@ public class CourseDaoTest {
     private CourseDao courseDao;
     @Test
     public void queryAllTest() {
-        List<Course> list = courseDao.queryAll(0,10);
+        List<Course> list = courseDao.queryAll(0,10,"");
         System.out.println(list);
     }
     @Test

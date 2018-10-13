@@ -18,7 +18,7 @@ public class Course {
     private String coursePlace;
     private String courseTecher;
     private String courseClass;
-    private int courseCoun;
+    private int courseCount;
     private String courseIsClose;
 
     @Override
@@ -36,7 +36,7 @@ public class Course {
                 ", coursePlace='" + coursePlace + '\'' +
                 ", courseTecher='" + courseTecher + '\'' +
                 ", courseClass='" + courseClass + '\'' +
-                ", courseCoun=" + courseCoun +
+                ", courseCount=" + courseCount +
                 ", courseIsClose='" + courseIsClose + '\'' +
                 '}';
     }
@@ -137,12 +137,12 @@ public class Course {
         this.courseClass = courseClass;
     }
 
-    public int getCourseCoun() {
-        return courseCoun;
+    public int getCourseCount() {
+        return courseCount;
     }
 
-    public void setCourseCoun(int courseCoun) {
-        this.courseCoun = courseCoun;
+    public void setCourseCount(int courseCount) {
+        this.courseCount = courseCount;
     }
 
     public String getCourseIsClose() {

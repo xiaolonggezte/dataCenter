@@ -8,6 +8,9 @@
     <select id="queryAll" resultType="Course">
         SELECT *
         FROM `course`
+        <if test="courseNumber.length() != 0">
+            WHERE course_number = #{courseNumber}
+        </if>
         ORDER BY `course_id`
         LIMIT #{offset},#{limit};
     </select>
@@ -42,7 +45,7 @@
             #{one.coursePlace},
             #{one.courseTecher},
             #{one.courseClass},
-            #{one.courseCoun},
+            #{one.courseCount},
             #{one.courseIsClose}
         );
     </insert>
