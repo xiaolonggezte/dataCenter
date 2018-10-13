@@ -41,7 +41,7 @@
                 {field: 'deviceNumber', title: '仪器编号', align: 'center', sort:true, fixed:'left' },
                 {field: 'deviceUnitId', title: '领用单位', align: 'center'},
                 {field: 'deviceUnitName', title: '领用单位名称', align: 'center', },
-                {field: 'deviceCategory_number', title: '分类号', align: 'center',sort:true},
+                {field: 'deviceCategoryNumber', title: '分类号', align: 'center',sort:true},
                 {field: 'deviceName', title: '仪器名称', align: 'center'},
                 {field: 'deviceVersion', title: '仪器型号', align: 'center'},
                 {field: 'devicePrice', title: '单价', align: 'center'},

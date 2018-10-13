@@ -13,7 +13,7 @@
     </select>
 
 
-    <select id="insertOne">
+    <insert id="insertOne">
         INSERT ignore INTO
         `course`(
               `course_unit`,
@@ -45,8 +45,8 @@
             #{one.courseCoun},
             #{one.courseIsClose}
         );
-    </select>
-    <select id="updateOne">
+    </insert>
+    <update id="updateOne">
         UPDATE `course`
         SET
           `course_unit` = #{one.courseUnit},
@@ -63,10 +63,10 @@
           `course_count` = #{one.courseCoun},
           `course_is_close` = #{one.courseIsClose}
         WHERE course_id = #{one.courseId};
-    </select>
-    <select id="deleteOne">
+    </update>
+    <delete id="deleteOne">
         DELETE
         FROM `course`
         WHERE course_id = #{one.courseId};
-    </select>
+    </delete>
 </mapper>

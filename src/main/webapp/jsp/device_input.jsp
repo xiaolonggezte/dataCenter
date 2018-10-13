@@ -15,14 +15,39 @@
     <title>device_input</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="stylesheet" href="../markdown_editor/examples/css/style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="../layui/css/layui.css"  media="all">
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
 <body>
 <div class="layui-upload" align="center">
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <header>
+        <h1>导入仪器资产数据</h1>
+        注意：导入之前将文件转成excel97-2003版本(excel软件中操作)
+        <br/>
+        <br/>
+        <br/>
+        <hr/>
+        <hr/>
+        <hr/>
+
+    </header>
     <button type="button" class="layui-btn layui-btn-normal" id="select_file">选择文件</button>
     <button type="button" class="layui-btn" id="upload_file">开始上传</button>
+    <hr/>
+    <hr/>
+    <hr/>
 </div>
 
 <script src="../layui/layui.js" charset="utf-8"></script>

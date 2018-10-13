@@ -5,6 +5,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.datacenter.entity.Course;
 import org.datacenter.entity.Device;
 import org.slf4j.Logger;
@@ -32,6 +33,8 @@ public class ReadExcel {
         try {
             sheet = getSheet(mfile);
         } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("文件解释失败");
             return null;
         }
         int rowCount = sheet.getPhysicalNumberOfRows();
@@ -40,58 +43,51 @@ public class ReadExcel {
         for(int i = 1;i < rowCount;i ++) {
             Row row = sheet.getRow(i);
             device = new Device();
+            if(row.getCell(2) != null) {
+                device.setDeviceNumber(tranform(row.getCell(2).getStringCellValue() ));
+            }
             if(row.getCell(0) != null) {
-                device.setDeviceNumber(row.getCell(0).getStringCellValue() );
-                logger.info("device.deviceNumber={}",device.getDeviceNumber());
+                device.setDeviceUnitId(tranform(row.getCell(0).getStringCellValue()) );
             }
             if(row.getCell(1) != null) {
-                device.setDeviceNumber(row.getCell(1).getStringCellValue());
-            }
-            if(row.getCell(2) != null) {
-                device.setDeviceUnitName(row.getCell(2).getStringCellValue());
+                device.setDeviceUnitName(tranform(row.getCell(1).getStringCellValue()) );
             }
             if(row.getCell(3) != null) {
-                device.setDeviceNumber(row.getCell(3).getStringCellValue());
+                device.setDeviceCategoryNumber(tranform(row.getCell(3).getStringCellValue()) );
             }
             if(row.getCell(4) != null) {
-                device.setDeviceName(row.getCell(4).getStringCellValue());
+                device.setDeviceName(tranform(row.getCell(4).getStringCellValue()) );
             }
             if(row.getCell(5) != null) {
-                device.setDeviceVersion(row.getCell(5).getStringCellValue());
+                device.setDeviceVersion(tranform(row.getCell(5).getStringCellValue()));
             }
             if(row.getCell(6) != null) {
                 device.setDevicePrice((float) row.getCell(6).getNumericCellValue());
             }
             if(row.getCell(7) != null) {
-                device.setDeviceMenufactor(row.getCell(7).getStringCellValue());
+                device.setDeviceMenufactor(tranform(row.getCell(7).getStringCellValue()));
             }
             if(row.getCell(8) != null) {
-                device.setDeviceDate(row.getCell(8).getStringCellValue());
+                device.setDeviceDate(tranform(row.getCell(8).getStringCellValue()));
             }
             if(row.getCell(9) != null) {
-                device.setDeviceGetter(row.getCell(9).getStringCellValue());
+                device.setDeviceGetter(tranform(row.getCell(9).getStringCellValue()));
             }
             if(row.getCell(10) != null) {
-                device.setDeviceSubject(row.getCell(10).getStringCellValue());
+                device.setDeviceSubject(tranform(row.getCell(10).getStringCellValue()));
             }
             if(row.getCell(11) != null) {
-                device.setDeviceUseDeriction(row.getCell(11).getStringCellValue());
+                device.setDeviceUseDeriction(tranform(row.getCell(11).getStringCellValue()));
             }
             if(row.getCell(12) != null) {
-                device.setDeviceRoom(row.getCell(12).getStringCellValue());
+                device.setDeviceRoom(tranform(row.getCell(12).getStringCellValue()));
             }
             if(row.getCell(13) != null) {
-                device.setDeviceHander(row.getCell(13).getStringCellValue());
-            }
-            if(row.getCell(14) != null) {
-                device.setDeviceStatus(row.getCell(14).getStringCellValue());
-            }
-            if(row.getCell(15) != null) {
-                device.setIsUsed(row.getCell(15).getStringCellValue());
+                device.setDeviceHander(tranform(row.getCell(13).getStringCellValue()));
             }
 
             deviceList.add(device);
-            if(i == 1) {
+            if(i <= 3) {
                 logger.info("one device = {}",device);
             }
         }
@@ -100,11 +96,12 @@ public class ReadExcel {
     }
 
     public List<Course> getCourseList(MultipartFile mfile) {
-        Sheet sheet;
+        Sheet sheet = null;
         try {
             sheet = getSheet(mfile);
         } catch (Exception e) {
-            return null;
+            logger.info("文件解析失败");
+            e.printStackTrace();
         }
 
         int rowCount = sheet.getPhysicalNumberOfRows();
@@ -113,28 +110,42 @@ public class ReadExcel {
         for(int i = 1;i < rowCount;i ++) {
             Row row = sheet.getRow(i);
             course = new Course();
-            int columnCount = row.getPhysicalNumberOfCells();
-            for(int j = 0;j < columnCount;j ++) {
-                String temp = row.getCell(j).getStringCellValue();
-                if(i == 1) {
-                    logger.info("Course Cell = {}",temp);
-                }
+            if(row.getCell(0) != null) {
+
             }
             deviceList.add(course);
         }
-
         return deviceList;
     }
     public Sheet getSheet(MultipartFile Mfile) throws Exception {
         CommonsMultipartFile commonsMultipartFile = (CommonsMultipartFile)Mfile;
         DiskFileItem fileItem = (DiskFileItem) commonsMultipartFile.getFileItem();
         InputStream inputStream = fileItem.getInputStream();
-//         jxl提供的Workbook类
-        WorkbookSettings workbookSettings = new WorkbookSettings();
-//            可以设置为UTF-8或者GBK或者ISO-8859-1
-        workbookSettings.setEncoding("GBK");
-        Workbook workbook = new HSSFWorkbook(inputStream);
-        Sheet sheet = workbook.getSheetAt(0);
+        Workbook workbook = null;
+        Sheet sheet = null;
+        try {
+            workbook = new HSSFWorkbook(inputStream);//excel 2003
+            sheet = workbook.getSheetAt(0);
+        } catch (Exception e) {
+            try {
+                workbook = new XSSFWorkbook(inputStream);// excel 2007
+                sheet = workbook.getSheetAt(0);
+            } catch (Exception ee) {
+                ee.printStackTrace();
+            }
+
+        }
         return sheet;
+    }
+
+    public String tranform(String oldString) {
+//        String newName = null;
+//        try {
+//            newName = new String(oldString.getBytes("ISO-8859-1"),"GBK");
+//            logger.info("oldString={},newString={}",oldString,newName);
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+        return oldString;
     }
 }

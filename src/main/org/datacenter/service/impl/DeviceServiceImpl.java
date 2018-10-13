@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,10 +27,16 @@ public class DeviceServiceImpl implements DeviceService {
         return list;
     }
 
-    public boolean insertAll(List<Device> deviceList) {
-        for(Device device : deviceList) {
 
+    public List<Device> deviceListInsert(List<Device> deviceList) {
+        List<Device> remainDeviceList = new ArrayList<Device>();
+        for(Device device : deviceList) {
+            try {
+                deviceDao.insertOne(device);
+            } catch(Exception e){
+                remainDeviceList.add(device);
+            }
         }
-        return false;
+        return remainDeviceList;
     }
 }

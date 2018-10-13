@@ -12,7 +12,7 @@ public class Course {
     private String courseName;
     private String courseProjectNumber;
     private String courseProjectName;
-    private int courseWeek;
+    private String courseWeek;
     private String courseDay;
     private String courseNode;
     private String coursePlace;
@@ -89,11 +89,11 @@ public class Course {
         this.courseProjectName = courseProjectName;
     }
 
-    public int getCourseWeek() {
+    public String getCourseWeek() {
         return courseWeek;
     }
 
-    public void setCourseWeek(int courseWeek) {
+    public void setCourseWeek(String courseWeek) {
         this.courseWeek = courseWeek;
     }
 

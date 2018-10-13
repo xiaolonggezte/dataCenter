@@ -9,8 +9,7 @@ public class Device {
     private int deviceId;
     private String isUsed;
     private String deviceStatus;
-    private String deviceCategoryId;
-    private int deviceUnitId;
+    private String deviceUnitId;
     private String deviceUnitName;
     private String deviceNumber;
     private String deviceCategoryNumber;
@@ -32,7 +31,6 @@ public class Device {
                 "deviceId=" + deviceId +
                 ", isUsed='" + isUsed + '\'' +
                 ", deviceStatus='" + deviceStatus + '\'' +
-                ", deviceCategoryId='" + deviceCategoryId + '\'' +
                 ", deviceUnitId=" + deviceUnitId +
                 ", deviceUnitName='" + deviceUnitName + '\'' +
                 ", deviceNumber=" + deviceNumber +
@@ -74,19 +72,11 @@ public class Device {
         this.deviceStatus = deviceStatus;
     }
 
-    public String getDeviceCategoryId() {
-        return deviceCategoryId;
-    }
-
-    public void setDeviceCategoryId(String deviceCategoryId) {
-        this.deviceCategoryId = deviceCategoryId;
-    }
-
-    public int getDeviceUnitId() {
+    public String getDeviceUnitId() {
         return deviceUnitId;
     }
 
-    public void setDeviceUnitId(int deviceUnitId) {
+    public void setDeviceUnitId(String deviceUnitId) {
         this.deviceUnitId = deviceUnitId;
     }
 

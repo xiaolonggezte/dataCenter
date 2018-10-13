@@ -49,8 +49,9 @@ public class DeviceController {
         if(name==null || ("").equals(name) && size==0) return new LoadResponse(404,"error");
 
         List<Device> deviceList = readExcel.getDeviceList(file);
-        logger.info("deviceList.size() = {}",deviceList.size());
-        logger.info("deviceList[0] ={}",deviceList.get(0));
+        logger.info("deviceList.size() = {}",deviceList == null ?  0 : deviceList.size());
+        List<Device> remainDeviceList = deviceList == null ? null : deviceService.deviceListInsert(deviceList);
+        logger.info("remainDeviceList.size() = {}",remainDeviceList == null ? 0 : remainDeviceList.size());
         return new LoadResponse(0,"success");
     }
 

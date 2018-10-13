@@ -15,10 +15,9 @@
         LIMIT #{offset},#{limit};
     </select>
 
-    <select id="insertOne">
+    <insert id="insertOne">
         INSERT ignore INTO
         `device`(
-            device_category_id,
             device_unit_id,
             device_unit_name,
             device_number,
@@ -35,7 +34,6 @@
             device_hander
         )
         VALUES(
-            #{one.deviceCategoryId},
             #{one.deviceUnitId},
             #{one.deviceUnitName},
             #{one.deviceNumber},
@@ -51,7 +49,7 @@
             #{one.deviceRoom},
             #{one.deviceHander}
         );
-    </select>
+    </insert>
 
     <!--device_id,is_used,device_status,device_category_id,device_unit_id,device_unit_name,device_number-->
     <!--,device_category_number,device_name,device_version,device_price,device_menufactor,device_date,-->
@@ -60,11 +58,10 @@
     <!--one.deviceId,one.isUsed,one.deviceStatus,one.deviceCategoryId,one.deviceUnitId,one.deviceUnitName,one.deviceNumber-->
     <!--,one.deviceCategoryNumber,one.deviceName,one.deviceVersion,one.devicePrice,one.deviceMenufactor,one.deviceDate,-->
     <!--one.deviceGetter,one.deviceSubject,one.deviceUseDeriction,one.deviceRoom,one.deviceHander-->
-    <select id="updateOne">
+    <update id="updateOne">
         UPDATE `device`
         SET is_used = #{one.isUsed},
             device_status = #{one.deviceStatus},
-            device_category_id = #{one.deviceCategoryId},
             device_unit_id = #{one.deviceUnitId},
             device_unit_name = #{one.deviceUnitName},
             device_number = #{one.deviceNumber},
@@ -80,10 +77,10 @@
             device_room = #{one.deviceRoom},
             device_hander = #{one.deviceHander}
         WHERE device_number = #{one.deviceNumber};
-    </select>
-    <select id="deleteOne">
+    </update>
+    <delete id="deleteOne">
         DELETE
         FROM `device`
         WHERE device_number = #{one.deviceNumber};
-    </select>
+    </delete>
 </mapper>
