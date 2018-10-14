@@ -22,8 +22,9 @@ public class CourseDaoTest {
     private CourseDao courseDao;
     @Test
     public void queryAllTest() {
-        List<Course> list = courseDao.queryAll(0,10,"");
+        List<Course> list = courseDao.queryAll(0,10,"","3","11-504");
         System.out.println(list);
+        System.out.println(list.size());
     }
     @Test
     public void insertOneTest() {

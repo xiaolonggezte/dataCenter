@@ -10,7 +10,7 @@ import java.util.List;
  * @Desription:
  */
 public interface CourseService {
-    List<Course> queryAll(int offset, int limit, String courseNumber);
+    List<Course> queryAll(int offset, int limit, String courseNumber, String courseWeek, String coursePlace);
     void insertOne(Course course);
     void updateOne(Course course);
     void deleteOne(Course course);

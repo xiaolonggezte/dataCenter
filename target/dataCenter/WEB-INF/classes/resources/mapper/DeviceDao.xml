@@ -8,8 +8,23 @@
     <select id="queryAll" resultType="Device">
         SELECT *
         FROM `device`
-        <if test="deviceNumber != -1">
-        WHERE device_number = #{deviceNumber}
+        <if test="deviceNumber.length() != 0 or deviceUseDeriction.length() != 0 or deviceRoom.length() != 0">
+            WHERE
+        </if>
+        <if test="deviceNumber.length() != 0">
+            device_number = #{deviceNumber}
+        </if>
+        <if test="deviceUseDeriction.length() != 0">
+            <if test="deviceNumber.length() != 0">
+                AND
+            </if>
+            device_use_deriction = #{deviceUseDeriction}
+        </if>
+        <if test="deviceRoom.length() != 0">
+            <if test="deviceNumber.length() != 0 or deviceUseDeriction.length() != 0">
+                AND
+            </if>
+            device_room LIKE '%'||#{deviceRoom}||'%'
         </if>
         ORDER BY `device_id`
         LIMIT #{offset},#{limit};

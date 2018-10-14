@@ -8,8 +8,23 @@
     <select id="queryAll" resultType="Course">
         SELECT *
         FROM `course`
+        <if test="courseNumber.length() != 0 or courseWeek.length() != 0 or coursePlace.length() != 0">
+            WHERE
+        </if>
         <if test="courseNumber.length() != 0">
-            WHERE course_number = #{courseNumber}
+            course_number = #{courseNumber}
+        </if>
+        <if test="courseWeek.length() != 0">
+            <if test="courseNumber.length() != 0">
+                AND
+            </if>
+            course_week = #{courseWeek}
+        </if>
+        <if test="coursePlace.length() != 0">
+            <if test="courseNumber.length() != 0 or courseWeek.length() != 0">
+                AND
+            </if>
+            course_place LIKE '%'||#{coursePlace}||'%'
         </if>
         ORDER BY `course_id`
         LIMIT #{offset},#{limit};
@@ -63,7 +78,7 @@
           `course_place` = #{one.coursePlace},
           `course_techer` = #{one.courseTecher},
           `course_class` = #{one.courseClass},
-          `course_count` = #{one.courseCoun},
+          `course_count` = #{one.courseCount},
           `course_is_close` = #{one.courseIsClose}
         WHERE course_id = #{one.courseId};
     </update>

@@ -18,15 +18,23 @@
     <hr/>
     搜索课程编号：
     <div class="layui-inline">
-        <input class="layui-input" name="deviceNumber" id="demoReload" autocomplete="off">
+        <input class="layui-input" id="course_view_courseNumber" autocomplete="off">
+    </div>
+    搜索周次：
+    <div class="layui-inline">
+        <input class="layui-input" id="course_view_courseWeek" autocomplete="off">
+    </div>
+    搜索实验室：
+    <div class="layui-inline">
+        <input class="layui-input" id="course_view_coursePlace" autocomplete="off">
     </div>
     <button id="course_view_search" class="layui-btn" data-type="reload">搜索</button>
 </div>
-<table class="layui-hide" id="demo_course_view" lay-filter="device_edit"></table>
+<table class="layui-hide" id="demo_course_view" lay-filter="device_view"></table>
 
 
 <script src="../layui/layui.js" charset="utf-8"></script>
-<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<%--<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->--%>
 <script>
     layui.use('table', function(){
         var table = layui.table;
@@ -43,15 +51,16 @@
             // ,totalRow: true //开启合计行
             ,cellMinWidth: 100
             ,cols: [[ //标题栏
-                {field: 'courseNumber', title: '课程编号', align: 'center', sort:true, fixed:'left' },
-                {field: 'courseUnit', title: '开课单位', align: 'center'},
-                {field: 'courseName', title: '课程名称', align: 'center', },
-                {field: 'courseProjectNumber', title: '项目编号', align: 'center',sort:true},
-                {field: 'courseProjectName', title: '项目名称', align: 'center'},
+                {field: 'courseNumber', title: '课程编号', align: 'center', sort:true, fixed:'left', width:150},
+                {field: 'courseId', title: 'ID', align: 'center', sort:true},
+                {field: 'courseUnit', title: '开课单位', align: 'center', width:150},
+                {field: 'courseName', title: '课程名称', align: 'center', width:150 },
+                {field: 'courseProjectNumber', title: '项目编号', align: 'center',sort:true, width:150},
+                {field: 'courseProjectName', title: '项目名称', align: 'center', width:150},
                 {field: 'courseWeek', title: '周次', align: 'center'},
                 {field: 'courseDay', title: '星期', align: 'center'},
                 {field: 'courseNode', title: '节次', align: 'center'},
-                {field: 'coursePlace', title: '地点', align: 'center', sort:true },
+                {field: 'coursePlace', title: '地点', align: 'center', sort:true, width:150 },
                 {field: 'courseTecher', title: '指导老师', align: 'center'},
                 {field: 'courseClass', title: '学生班级', align: 'center'},
                 {field: 'courseCount', title: '学生人数', align: 'center', sort:true},
@@ -65,20 +74,22 @@
                     "data": res //解析数据列表
                 };
             }
-            ,id: 'testReload_course_view'
+            ,id: 'testReload_device_view'
         });
         var $ = layui.$, active = {
             reload: function() {
-                var demoReload = $('#demoReload');
+                var demoReload = $('#course_view_courseNumber');
                 // alert("reload");
                 // alert(demoReload.val());
                 //执行重载
-                table.reload('testReload_course_view', {
+                table.reload('testReload_device_view', {
                     page: {
                         curr: 1 //重新从第 1 页开始
                     }
                     ,where: {
-                        courseNumber : demoReload.val()
+                        courseNumber : demoReload.val(),
+                        courseWeek : $('#course_view_courseWeek').val(),
+                        coursePlace : $('#course_view_coursePlace').val()
                     }
                 });
             }

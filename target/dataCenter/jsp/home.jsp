@@ -1,9 +1,3 @@
-<%--
-  User: acm-icpc
-  Date: 18-10-6
-  Time: 下午9:52
-  主界面代码
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -18,6 +12,7 @@
     <link rel="stylesheet" href="../markdown_editor/examples/css/style.css" />
     <link rel="stylesheet" href="../markdown_editor/css/editormd.css" />
     <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../layui/css/layui.css"  media="all">
 </head>
 <body class="layui-layout-body">
 
@@ -99,7 +94,7 @@
         <div id="m_login" style="display: none">
             <jsp:include page="login.jsp"></jsp:include>
         </div>
-        <div id="m_content_view" style="display: none">
+        <div id="m_content_view" style="display: block">
             <jsp:include page="content_view.jsp"></jsp:include>
         </div>
         <div id="m_device_view" style="display: none">
@@ -108,14 +103,14 @@
         <div id="m_course_view" style="display: none">
             <jsp:include page="course_view.jsp"></jsp:include>
         </div>
-        <div id="m_content_edit" style="display: block">
+        <div id="m_content_edit" style="display: none">
             <jsp:include page="content_edit.jsp"></jsp:include>
         </div>
         <div id="m_device_input" style="display: none">
             <jsp:include page="device_input.jsp"></jsp:include>
         </div>
         <div id="m_device_edit" style="display: none">
-            <jsp:include page="device_edit.jsp" flush="true"></jsp:include>
+            <jsp:include page="device_edit.jsp"></jsp:include>
         </div>
         <div id="m_course_input" style="display: none">
             <jsp:include page="course_input.jsp"></jsp:include>
@@ -197,13 +192,300 @@
     });
 </script>
 
-<%--device_edit.jsp的js--%>
-<script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+<%--course_edit--%>
+
+<script type="text/html" id="barDemo_course_edit">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
+<script src="../markdown_editor/examples/js/jquery.min.js"></script>
+<script src="../layui/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
 
+
+        //展示已知数据
+        table.render({
+            elem: '#demo_course_edit'
+            ,height: 420
+            ,url:'/data/course'
+            ,title: '资产数据表'
+            ,page: true //开启分页
+            ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+            // ,totalRow: true //开启合计行
+            ,cellMinWidth: 100
+            ,cols: [[ //标题栏
+                {type: 'checkbox', fixed: 'left',width:40},
+                {field: 'courseNumber', title: '课程编号', align: 'center', sort:true, fixed:'left' , width:150},
+                {field: 'courseId', title: 'ID', align: 'center', sort:true},
+                {field: 'courseUnit', title: '开课单位', align: 'center', width:150},
+                {field: 'courseName', title: '课程名称', align: 'center', width:150},
+                {field: 'courseProjectNumber', title: '项目编号', align: 'center',sort:true, width:150},
+                {field: 'courseProjectName', title: '项目名称', align: 'center', width:150},
+                {field: 'courseWeek', title: '周次', align: 'center'},
+                {field: 'courseDay', title: '星期', align: 'center'},
+                {field: 'courseNode', title: '节次', align: 'center'},
+                {field: 'coursePlace', title: '地点', align: 'center', width:150, sort:true },
+                {field: 'courseTecher', title: '指导老师', align: 'center'},
+                {field: 'courseClass', title: '学生班级', align: 'center', edit: 'text'},
+                {field: 'courseCount', title: '学生人数', align: 'center', sort:true, edit: 'text'},
+                {field: 'courseIsClose', title: '是否停课', align: 'center', edit: 'text'},
+                {fixed: 'right', title:'操作', toolbar: '#barDemo_course_edit', width:150,align: 'center'}
+            ]]
+            ,parseData: function(res){ //res 即为原始返回的数据
+                return {
+                    "code": 0, //解析接口状态
+                    // "msg": res.message, //解析提示文本
+                    // "count": res.total, //解析数据长度
+                    "data": res //解析数据列表
+                };
+            }
+            ,id: 'testReload_course_edit'
+        });
+        var $ = layui.$, active = {
+            reload: function() {
+                var demoReload = $('#course_edit_courseNumber');
+                // alert("reload");
+                // alert(demoReload.val());
+                //执行重载
+                table.reload('testReload_course_edit', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        courseNumber : demoReload.val(),
+                        courseWeek : $('#course_edit_courseWeek').val(),
+                        coursePlace : $('#course_edit_coursePlace').val()
+                    }
+                });
+            }
+        };
+
+        $('#course_edit_search').on('click', function(){
+            // alert("click");
+            var type = $(this).data('type');
+            // alert(type + "   ---->    " + active[type]);
+            active[type] ? active[type].call(this) : '';
+        });
+
+
+        //监听表格复选框选择
+        table.on('checkbox(course_edit_filter)', function(obj){
+            console.log(obj)
+        });
+        //监听工具条
+        table.on('tool(course_edit_filter)', function(obj){
+            layer.msg("工具条生效");
+            var data = obj.data;
+            if(obj.event === 'detail'){
+                // layer.msg("detail");
+                // alert("detail");
+            } else if(obj.event === 'del') {
+                layer.confirm('真的删除行么', function(index){
+
+                    $.ajax({
+                        type:'POST'
+                        ,url:'/course/delete'
+                        ,async:false
+                        ,data:JSON.stringify(data)
+                        ,dataType : 'json'
+                        ,contentType : 'application/json'
+                        ,success: function(){
+                            console.log("success");
+                            layer.msg("删除成功");
+                        }
+                        ,error: function(XMLHttpRequest,msg) {
+                            console.log(msg);
+                            layer.msg("删除成功");
+                        }
+                    });
+                    obj.del();
+                    layer.close(index);
+                });
+            } else if(obj.event === 'edit'){
+
+                layer.confirm('确认信息是否这样修改', function(index){
+
+                    $.ajax({
+                        type:'POST'
+                        ,url:'/course/update'
+                        ,async:false
+                        ,data:JSON.stringify(data)
+                        ,dataType : 'json'
+                        ,contentType : 'application/json'
+                        ,success: function(){
+                            console.log("success");
+                            layer.msg("修改成功")
+                        }
+                        ,error: function(XMLHttpRequest,msg) {
+                            console.log(msg);
+                            layer.msg("修改失败");
+                        }
+                    });
+                    layer.close(index);
+                });
+            }
+        });
+
+        //监听头工具栏事件
+        table.on('toolbar(course_edit_filter)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id)
+                ,data = checkStatus.data; //获取选中的数据
+            switch(obj.event){
+                case 'add':
+                    layer.msg('后续加入，敬请期待');
+                    break;
+                case 'update':
+                    layer.alert("请利用每行右侧工具栏进行逐行更改");
+                    break;
+                case 'delete':
+                    if(data.length === 0){
+                        layer.msg('请选择一行');
+                    } else {
+                        layer.confirm('真的删除所选行么', function(index){
+                            $.ajax({
+                                type:'POST'
+                                ,url:'/course/deleteList'
+                                ,async:false
+                                ,data:JSON.stringify(data)
+                                ,dataType : 'json'
+                                ,contentType : 'application/json'
+                                ,success: function(){
+                                    console.log("success");
+                                    layer.msg("删除成功");
+                                }
+                                ,error: function(XMLHttpRequest,msg) {
+                                    console.log(msg);
+                                    layer.msg("删除成功");
+                                }
+                            });
+                            layer.close(index);
+                        });
+                    }
+                    break;
+            }
+        });
+    });
+</script>
+    <%--course_input--%>
+
+<script>
+    layui.use('upload', function(){
+        var $ = layui.jquery
+            ,upload = layui.upload;
+        var uploadInst = upload.render({
+            elem: '#select_file_course_input'
+            ,url: '/course/upload'
+            ,auto: false
+            ,accept:'file'
+            ,bindAction: '#upload_file_course_input'
+            ,done: function(res){
+                console.log(res);
+                //如果上传失败
+                if(res.code > 0){
+                    return layer.msg('上传失败');
+                } else {
+                    return layer.msg('上传成功');
+                }
+            }
+            ,error: function(res){
+                // alert(res.responseText);
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function(){
+                    uploadInst.upload();
+                });
+            }
+        });
+    });
+
+</script>
+
+    <%--course_view--%>
+
+
+<script src="../layui/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+
+
+        //展示已知数据
+        table.render({
+            elem: '#demo_course_view'
+            ,height: 420
+            ,url:'/data/course'
+            ,title: '资产数据表'
+            ,page: true //开启分页
+            // ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+            // ,totalRow: true //开启合计行
+            ,cellMinWidth: 100
+            ,cols: [[ //标题栏
+                {field: 'courseNumber', title: '课程编号', align: 'center', sort:true, fixed:'left', width:150},
+                {field: 'courseId', title: 'ID', align: 'center', sort:true},
+                {field: 'courseUnit', title: '开课单位', align: 'center', width:150},
+                {field: 'courseName', title: '课程名称', align: 'center', width:150 },
+                {field: 'courseProjectNumber', title: '项目编号', align: 'center',sort:true, width:150},
+                {field: 'courseProjectName', title: '项目名称', align: 'center', width:150},
+                {field: 'courseWeek', title: '周次', align: 'center'},
+                {field: 'courseDay', title: '星期', align: 'center'},
+                {field: 'courseNode', title: '节次', align: 'center'},
+                {field: 'coursePlace', title: '地点', align: 'center', sort:true, width:150 },
+                {field: 'courseTecher', title: '指导老师', align: 'center'},
+                {field: 'courseClass', title: '学生班级', align: 'center'},
+                {field: 'courseCount', title: '学生人数', align: 'center', sort:true},
+                {field: 'courseIsClose', title: '是否停课', align: 'center'}
+            ]]
+            ,parseData: function(res){ //res 即为原始返回的数据
+                return {
+                    "code": 0, //解析接口状态
+                    // "msg": res.message, //解析提示文本
+                    // "count": res.total, //解析数据长度
+                    "data": res //解析数据列表
+                };
+            }
+            ,id: 'testReload_device_view'
+        });
+        var $ = layui.$, active = {
+            reload: function() {
+                var demoReload = $('#course_view_courseNumber');
+                // alert("reload");
+                // alert(demoReload.val());
+                //执行重载
+                table.reload('testReload_device_view', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        courseNumber : demoReload.val(),
+                        courseWeek : $('#course_view_courseWeek').val(),
+                        coursePlace : $('#course_view_coursePlace').val()
+                    }
+                });
+            }
+        };
+
+        $('#course_view_search').on('click', function(){
+            // alert("click");
+            var type = $(this).data('type');
+            // alert(type + "   ---->    " + active[type]);
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
+
+<%--device_edit--%>
+<script type="text/html" id="barDemo_device_edit">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script src="../markdown_editor/examples/js/jquery.min.js"></script>
+<script src="../layui/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
     layui.use('table', function(){
         var table = layui.table;
@@ -220,23 +502,24 @@
             ,cellMinWidth: 100
             ,cols: [[ //标题栏
                 {type: 'checkbox', fixed: 'left',width:40},
-                {field: 'deviceUnitId', title: '领用单位', align: 'center'},
-                {field: 'deviceUnitName', title: '领用单位名称', align: 'center', },
-                {field: 'deviceNumber', title: '仪器编号', align: 'center', sort:true},
-                {field: 'deviceCategory_number', title: '分类号', align: 'center',sort:true},
-                {field: 'deviceName', title: '仪器名称', align: 'center'},
-                {field: 'deviceVersion', title: '仪器型号', align: 'center'},
+                {field: 'deviceNumber', title: '仪器编号', align: 'center', sort:true, fixed:'left', width:150},
+                {field: 'deviceId', title: 'ID', align: 'center', sort:true},
+                {field: 'deviceUnitId', title: '领用单位', align: 'center', width:150},
+                {field: 'deviceUnitName', title: '领用单位名称', align: 'center', width:150},
+                {field: 'deviceCategoryNumber', title: '分类号', align: 'center',sort:true, width:150},
+                {field: 'deviceName', title: '仪器名称', align: 'center', width:150},
+                {field: 'deviceVersion', title: '仪器型号', align: 'center', width:200, width:150},
                 {field: 'devicePrice', title: '单价', align: 'center'},
-                {field: 'deviceMenufactor', title: '生产厂家', align: 'center'},
+                {field: 'deviceMenufactor', title: '生产厂家', align: 'center', width:150},
                 {field: 'deviceDate', title: '购置日期', align: 'center', sort:true },
                 {field: 'deviceGetter', title: '领用人', align: 'center'},
-                {field: 'deviceSubject', title: '经费科目名', align: 'center'},
-                {field: 'deviceUse_deriction', title: '使用方向', align: 'center', sort:true},
-                {field: 'deviceRoom', title: '使用房间', align: 'center',sort:true},
+                {field: 'deviceSubject', title: '经费科目名', align: 'center', width:150},
+                {field: 'deviceUseDeriction', title: '使用方向', align: 'center', sort:true},
+                {field: 'deviceRoom', title: '使用房间', align: 'center', edit: 'text' ,sort:true, width:200},
                 {field: 'deviceHander', title: '经手人', align: 'center'},
-                {field: 'deviceStatus', title: '设备状态', align: 'center'},
-                {field: 'isUsed', title: '设备使用情况', align: 'center'},
-                {fixed: 'right', title:'操作', toolbar: '#barDemo', width:150,align: 'center'}
+                {field: 'deviceStatus', title: '设备状态', align: 'center', edit: 'text'},
+                {field: 'isUsed', title: '设备使用情况', align: 'center', edit: 'text'},
+                {fixed: 'right', title:'操作', toolbar: '#barDemo_device_edit', width:150,align: 'center'}
 
             ]]
             ,parseData: function(res){ //res 即为原始返回的数据
@@ -247,14 +530,167 @@
                     "data": res //解析数据列表
                 };
             }
+            ,id: 'testReload_device_edit'
+        });
+        //监听表格复选框选择
+        table.on('checkbox(device_edit_table)', function(obj){
+            console.log(obj)
+        });
+        //监听工具条
+        table.on('tool(device_edit_table)', function(obj){
+
+            var data = obj.data;
+            if(obj.event === 'detail'){
+                // layer.msg("detail");
+                // alert("detail");
+            } else if(obj.event === 'del'){
+                layer.confirm('真的删除行么', function(index){
+                    obj.del();
+                    $.ajax({
+                        type:'POST'
+                        ,url:'/device/delete'
+                        ,async:false
+                        ,data:JSON.stringify(data)
+                        ,dataType : 'json'
+                        ,contentType : 'application/json'
+                        ,success: function(){
+                            console.log("success");
+                            layer.msg("删除成功");
+                        }
+                        ,error: function(XMLHttpRequest,msg) {
+                            console.log(msg);
+                            layer.msg("删除成功");
+                        }
+                    });
+                    layer.close(index);
+                });
+            } else if(obj.event === 'edit'){
+
+                layer.confirm('确认信息是否这样修改', function(index){
+
+                    $.ajax({
+                        type:'POST'
+                        ,url:'/device/update'
+                        ,async:false
+                        ,data:JSON.stringify(data)
+                        ,dataType : 'json'
+                        ,contentType : 'application/json'
+                        ,success: function(){
+                            console.log("success");
+                            layer.msg("修改成功")
+                        }
+                        ,error: function(XMLHttpRequest,msg) {
+                            console.log(msg);
+                            layer.msg("修改失败");
+                        }
+                    });
+                    layer.close(index);
+                });
+            }
+        });
+
+        //监听头工具栏事件
+        table.on('toolbar(device_edit_table)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id)
+                ,data = checkStatus.data; //获取选中的数据
+            switch(obj.event){
+                case 'add':
+                    layer.msg('后续加入，敬请期待');
+                    break;
+                case 'update':
+                    layer.alert("请利用每行右侧工具栏进行逐行更改");
+                    break;
+                case 'delete':
+                    if(data.length === 0){
+                        layer.msg('请选择一行');
+                    } else {
+                        layer.confirm('真的删除所选行么', function(index){
+                            $.ajax({
+                                type:'POST'
+                                ,url:'/device/deleteList'
+                                ,async:false
+                                ,data:JSON.stringify(data)
+                                ,dataType : 'json'
+                                ,contentType : 'application/json'
+                                ,success: function(){
+                                    console.log("success");
+                                    layer.msg("删除成功");
+                                }
+                                ,error: function(XMLHttpRequest,msg) {
+                                    console.log(msg);
+                                    layer.msg("删除成功");
+                                }
+                            });
+                            layer.close(index);
+                        });
+                    }
+                    break;
+            }
+        });
+        var $ = layui.$, active = {
+            reload: function() {
+                var demoReload = $('#device_edit_deviceNumber_query');
+                // alert("reload");
+                // alert(demoReload.val());
+                //执行重载
+                table.reload('testReload_device_edit', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        deviceNumber : demoReload.val(),
+                        deviceUseDeriction : $('#device_edit_deviceDerition_query').val(),
+                        deviceRoom : $('#device_edit_deviceRoom_query').val()
+                    }
+                });
+            }
+        };
+
+        $('#device_edit_query').on('click', function(){
+            // alert("click");
+            var type = $(this).data('type');
+            // alert(type + "   ---->    " + active[type]);
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
+
+<%--device_input--%>
+
+<script>
+
+    layui.use('upload', function(){
+        var $ = layui.jquery
+            ,upload = layui.upload;
+        var uploadInst = upload.render({
+            elem: '#select_file'
+            ,url: '/device/upload'
+            ,auto: false
+            ,accept:'file'
+            ,bindAction: '#upload_file'
+            ,done: function(res){
+                console.log(res);
+                //如果上传失败
+                if(res.code > 0){
+                    return layer.msg('上传失败');
+                } else {
+                    return layer.msg('上传成功');
+                }
+            }
+            ,error: function(res){
+                // alert(res.responseText);
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function(){
+                    uploadInst.upload();
+                });
+            }
         });
     });
 </script>
 
 <%--device_view--%>
-
-
-<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
     layui.use('table', function(){
         var table = layui.table;
@@ -270,22 +706,23 @@
             // ,totalRow: true //开启合计行
             ,cellMinWidth: 100
             ,cols: [[ //标题栏
-                {field: 'deviceUnitId', title: '领用单位', align: 'center'},
-                {field: 'deviceUnitName', title: '领用单位名称', align: 'center', },
-                {field: 'deviceNumber', title: '仪器编号', align: 'center', sort:true},
-                {field: 'deviceCategory_number', title: '分类号', align: 'center',sort:true},
+                {field: 'deviceNumber', title: '仪器编号', align: 'center', sort:true, fixed:'left' },
+                {field: 'deviceId', title: 'ID', align: 'center', sort:true},
+                {field: 'deviceUnitId', title: '领用单位', align: 'center',width:150},
+                {field: 'deviceUnitName', title: '领用单位名称', align: 'center', width:200},
+                {field: 'deviceCategoryNumber', title: '分类号', align: 'center',sort:true},
                 {field: 'deviceName', title: '仪器名称', align: 'center'},
-                {field: 'deviceVersion', title: '仪器型号', align: 'center'},
+                {field: 'deviceVersion', title: '仪器型号', align: 'center', width:200},
                 {field: 'devicePrice', title: '单价', align: 'center'},
                 {field: 'deviceMenufactor', title: '生产厂家', align: 'center'},
                 {field: 'deviceDate', title: '购置日期', align: 'center', sort:true },
                 {field: 'deviceGetter', title: '领用人', align: 'center'},
                 {field: 'deviceSubject', title: '经费科目名', align: 'center'},
-                {field: 'deviceUse_deriction', title: '使用方向', align: 'center', sort:true},
+                {field: 'deviceUseDeriction', title: '使用方向', align: 'center', sort:true},
                 {field: 'deviceRoom', title: '使用房间', align: 'center',sort:true},
                 {field: 'deviceHander', title: '经手人', align: 'center'},
                 {field: 'deviceStatus', title: '设备状态', align: 'center'},
-                {field: 'isUsed', title: '设备使用情况', align: 'center'}
+                {field: 'isUsed', title: '设备使用情况', align: 'center',fixed :'right'}
 
             ]]
             ,parseData: function(res){ //res 即为原始返回的数据
@@ -296,77 +733,34 @@
                     "data": res //解析数据列表
                 };
             }
+            ,id: 'testReload_device_view'
         });
-    });
-</script>
-<%--content_edit--%>
-
-<script type="text/javascript">
-    var testEditor;
-
-    $(function() {
-        testEditor = editormd("content_edit_jsp", {
-            width           : "90%",
-            autoHeight      : true,
-            path            : "../markdown_editor/lib/",
-            htmlDecode      : "style,script,iframe",
-            tex             : true,
-            emoji           : true,
-            taskList        : true,
-            flowChart       : true,
-            sequenceDiagram : true
-        });
-
-        $("#insert-btn").click(function(){
-            $.get("./temp.md", function(md){
-                testEditor.appendMarkdown(md);
-            });
-        });
-
-        $("#save-btn").click(function(){
-            var content = encodeURIComponent(testEditor.getMarkdown());
-            // alert(content);
-            $.ajax({
-                type:"POST",
-                url: "/content/update",
-                data: {"content":content},
-                async:false,
-                success: function(){
-                    console.log("success");
-                },
-                error: function(XMLHttpRequest,msg) {
-                    console.log(msg);
-                }
-            });
-            alert("保存成功");
-        });
-    });
-
-</script>
-<%--content_view--%>
-
-<script>
-    $(function () {
-        // 将temp.md的内容加载到content.jsp中
-        $.ajax({
-            url: "./temp.md",
-            async:false,
-            success: function(md){
-                // alert(md);
-                document.getElementById("md").innerHTML = md;
+        var $ = layui.$, active = {
+            reload: function() {
+                var demoReload = $('#device_view_deviceNumber_query');
+                // alert("reload");
+                // alert(demoReload.val());
+                //执行重载
+                table.reload('testReload_device_view', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        deviceNumber : demoReload.val(),
+                        deviceUseDeriction : $('#device_view_deviceDerition_query').val(),
+                        deviceRoom : $('#device_view_deviceRoom_query').val()
+                    }
+                });
             }
-        });
+        };
 
-        editormd.markdownToHTML("content_view_jsp", {
-            htmlDecode      : "style,script,iframe",
-            emoji           : true,
-            taskList        : true,
-            tex             : true,  // 默认不解析
-            flowChart       : true,  // 默认不解析
-            sequenceDiagram : true  // 默认不解析
+        $('#device_view_query').on('click', function(){
+            // alert("click");
+            var type = $(this).data('type');
+            // alert(type + "   ---->    " + active[type]);
+            active[type] ? active[type].call(this) : '';
         });
     });
-
 </script>
 </body>
 </html>

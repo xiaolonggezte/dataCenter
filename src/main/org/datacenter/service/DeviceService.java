@@ -11,6 +11,8 @@ import java.util.List;
  */
 
 public interface DeviceService {
-    List<Device> queryAll(int offset,int limit, int deviceNumber);
+    List<Device> queryAll(int offset,int limit, String deviceNumber,String deviceUseDeriction,String deviceRoom);
     List<Device> deviceListInsert(List<Device> deviceList);
+    void updateOne(Device device);
+    void deleteOne(Device device);
 }

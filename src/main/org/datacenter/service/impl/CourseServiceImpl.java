@@ -18,8 +18,9 @@ import java.util.List;
 public class CourseServiceImpl implements CourseService {
     @Autowired
     private CourseDao courseDao;
-    public List<Course> queryAll(int offset, int limit, String courseNumber) {
-        List<Course> courseList = courseDao.queryAll(offset, limit, courseNumber);
+
+    public List<Course> queryAll(int offset, int limit, String courseNumber, String courseWeek, String coursePlace) {
+        List<Course> courseList = courseDao.queryAll(offset, limit, courseNumber, courseWeek, coursePlace);
         return courseList;
     }
 

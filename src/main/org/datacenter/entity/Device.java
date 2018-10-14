@@ -6,12 +6,10 @@ package org.datacenter.entity;
  * @Desription:
  */
 public class Device {
+    private String deviceNumber;
     private int deviceId;
-    private String isUsed;
-    private String deviceStatus;
     private String deviceUnitId;
     private String deviceUnitName;
-    private String deviceNumber;
     private String deviceCategoryNumber;
     private String deviceName;
     private String deviceVersion;
@@ -23,7 +21,8 @@ public class Device {
     private String deviceUseDeriction;
     private String deviceRoom;
     private String deviceHander;
-
+    private String isUsed;
+    private String deviceStatus;
 
     @Override
     public String toString() {

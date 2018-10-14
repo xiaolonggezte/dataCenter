@@ -22,7 +22,7 @@ public class DeviceDaoTest {
     private DeviceDao deviceDao;
     @Test
     public void queryAllTest() {
-        List<Device> list = deviceDao.queryAll(0,10,-1);
+        List<Device> list = deviceDao.queryAll(0,10,"","行政","主楼");
         System.out.println(list);
     }
     @Test

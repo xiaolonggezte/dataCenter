@@ -8,10 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -33,10 +30,12 @@ public class CourseController {
     @RequestMapping("/data/course")
     @ResponseBody
     public List<Course> queryAll(@RequestParam("page") int page, @RequestParam("limit") int limit,
-                                 @RequestParam(value = "courseNumber", required = false, defaultValue = "") String courseNumber) {
-        logger.info("offset={},limit={}, courseNumber ={}",page,limit,courseNumber);
+                                 @RequestParam(value = "courseNumber", required = false, defaultValue = "") String courseNumber,
+                                 @RequestParam(value = "courseWeek", required = false, defaultValue = "") String courseWeek,
+                                 @RequestParam(value = "coursePlace", required = false, defaultValue = "") String coursePlace) {
+        logger.info("offset={},limit={}, courseNumber ={},courseWeek = {},coursePlace = {}",page,limit,courseNumber,courseWeek,coursePlace);
         int offset = (page - 1) * limit;
-        return courseService.queryAll(offset, limit, courseNumber);
+        return courseService.queryAll(offset, limit, courseNumber, courseWeek, coursePlace);
     }
     @RequestMapping(value = "/course/upload",method = RequestMethod.POST)
     @ResponseBody
@@ -54,5 +53,31 @@ public class CourseController {
         List<Course> remainCourseList = courseList == null ? null : courseService.courseListInsert(courseList);
         logger.info("remainDeviceList.size() = {}",remainCourseList == null ? 0 : remainCourseList.size());
         return new LoadResponse(0,"success");
+    }
+
+    @RequestMapping(value = "/course/update", method = RequestMethod.POST)
+    @ResponseBody
+    public LoadResponse courseUpdate(@RequestBody Course course) {
+        logger.info("需要更改的 course = {}",course);
+        courseService.updateOne(course);
+        return new LoadResponse(200,"success");
+    }
+
+    @RequestMapping(value = "/course/deleteList", method = RequestMethod.POST)
+    @ResponseBody
+    public LoadResponse courseDelete(@RequestBody List<Course> courseList) {
+        logger.info("将要删除的 course = {}",courseList);
+        for(Course course : courseList) {
+            courseService.deleteOne(course);
+        }
+        return new LoadResponse(200,"success");
+    }
+
+    @RequestMapping(value = "/course/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public LoadResponse courseDelete(@RequestBody Course course) {
+        logger.info("将要删除的 course = {}",course);
+        courseService.deleteOne(course);
+        return new LoadResponse(200,"success");
     }
 }

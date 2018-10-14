@@ -18,9 +18,18 @@
     <hr/>
     搜索仪器编号：
     <div class="layui-inline">
-        <input class="layui-input" name="deviceNumber" id="demoReload" autocomplete="off">
+        <input class="layui-input" id="device_view_deviceNumber_query" autocomplete="off">
     </div>
-    <button class="layui-btn" data-type="reload">搜索</button>
+    使用方向：
+    <div class="layui-inline">
+        <input class="layui-input" id="device_view_deviceDerition_query" autocomplete="off">
+    </div>
+    使用房间：
+    <div class="layui-inline">
+        <input class="layui-input" id="device_view_deviceRoom_query" autocomplete="off">
+    </div>
+
+    <button class="layui-btn" data-type="reload" id="device_view_query">搜索</button>
 </div>
 <table class="layui-hide" id="demo_view" lay-filter="device_edit"></table>
 
@@ -43,11 +52,12 @@
             ,cellMinWidth: 100
             ,cols: [[ //标题栏
                 {field: 'deviceNumber', title: '仪器编号', align: 'center', sort:true, fixed:'left' },
-                {field: 'deviceUnitId', title: '领用单位', align: 'center'},
-                {field: 'deviceUnitName', title: '领用单位名称', align: 'center', },
+                {field: 'deviceId', title: 'ID', align: 'center', sort:true},
+                {field: 'deviceUnitId', title: '领用单位', align: 'center',width:150},
+                {field: 'deviceUnitName', title: '领用单位名称', align: 'center', width:200},
                 {field: 'deviceCategoryNumber', title: '分类号', align: 'center',sort:true},
                 {field: 'deviceName', title: '仪器名称', align: 'center'},
-                {field: 'deviceVersion', title: '仪器型号', align: 'center'},
+                {field: 'deviceVersion', title: '仪器型号', align: 'center', width:200},
                 {field: 'devicePrice', title: '单价', align: 'center'},
                 {field: 'deviceMenufactor', title: '生产厂家', align: 'center'},
                 {field: 'deviceDate', title: '购置日期', align: 'center', sort:true },
@@ -68,26 +78,28 @@
                     "data": res //解析数据列表
                 };
             }
-            ,id: 'testReload'
+            ,id: 'testReload_device_view'
         });
         var $ = layui.$, active = {
             reload: function() {
-                var demoReload = $('#demoReload');
+                var demoReload = $('#device_view_deviceNumber_query');
                 // alert("reload");
                 // alert(demoReload.val());
                 //执行重载
-                table.reload('testReload', {
+                table.reload('testReload_device_view', {
                     page: {
                         curr: 1 //重新从第 1 页开始
                     }
                     ,where: {
-                        deviceNumber : demoReload.val()
+                        deviceNumber : demoReload.val(),
+                        deviceUseDeriction : $('#device_view_deviceDerition_query').val(),
+                        deviceRoom : $('#device_view_deviceRoom_query').val()
                     }
                 });
             }
         };
 
-        $('.demoTable .layui-btn').on('click', function(){
+        $('#device_view_query').on('click', function(){
             // alert("click");
             var type = $(this).data('type');
             // alert(type + "   ---->    " + active[type]);

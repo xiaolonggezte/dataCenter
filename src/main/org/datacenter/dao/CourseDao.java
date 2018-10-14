@@ -11,7 +11,11 @@ import java.util.List;
  * @Desription:
  */
 public interface CourseDao {
-    List<Course> queryAll(@Param("offset") int offset,@Param("limit") int limit, @Param("courseNumber") String courseNumber);
+    List<Course> queryAll(@Param("offset") int offset,
+                          @Param("limit") int limit,
+                          @Param("courseNumber") String courseNumber,
+                          @Param("courseWeek") String courseWeek,
+                          @Param("coursePlace") String coursePlace);
     void insertOne(@Param("one") Course course);
     void updateOne(@Param("one") Course course);
     void deleteOne(@Param("one") Course course);

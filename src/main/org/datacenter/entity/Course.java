@@ -30,7 +30,7 @@ public class Course {
                 ", courseName='" + courseName + '\'' +
                 ", courseProjectNumber='" + courseProjectNumber + '\'' +
                 ", courseProjectName='" + courseProjectName + '\'' +
-                ", courseWeek=" + courseWeek +
+                ", courseWeek='" + courseWeek + '\'' +
                 ", courseDay='" + courseDay + '\'' +
                 ", courseNode='" + courseNode + '\'' +
                 ", coursePlace='" + coursePlace + '\'' +
