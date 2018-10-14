@@ -82,30 +82,29 @@
             }
             ,id: 'testReload_course_edit'
         });
-        var $ = layui.$, active = {
-            reload: function() {
-                var demoReload = $('#course_edit_courseNumber');
-                // alert("reload");
-                // alert(demoReload.val());
-                //执行重载
-                table.reload('testReload_course_edit', {
-                    page: {
-                        curr: 1 //重新从第 1 页开始
-                    }
-                    ,where: {
-                        courseNumber : demoReload.val(),
-                        courseWeek : $('#course_edit_courseWeek').val(),
-                        coursePlace : $('#course_edit_coursePlace').val()
-                    }
-                });
-            }
-        };
+            var $ = layui.$, active1 = {
+                reload: function() {
+                    var demoReload = $('#course_edit_courseNumber');
+                    // alert("reload");
+                    // alert(demoReload.val());
+                    //执行重载
+                    table.reload('testReload_course_edit', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                        ,where: {
+                            courseNumber : demoReload.val(),
+                            courseWeek : $('#course_edit_courseWeek').val(),
+                            coursePlace : $('#course_edit_coursePlace').val()
+                        }
+                    });
+                }
+            };
 
         $('#course_edit_search').on('click', function(){
-            // alert("click");
             var type = $(this).data('type');
             // alert(type + "   ---->    " + active[type]);
-            active[type] ? active[type].call(this) : '';
+            active1[type] ? active1[type].call(this) : '';
         });
 
 

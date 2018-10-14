@@ -95,7 +95,7 @@
             <jsp:include page="login.jsp"></jsp:include>
         </div>
         <div id="m_content_view" style="display: block">
-            <jsp:include page="content_view.jsp"></jsp:include>
+            <jsp:include page="content_edit.jsp"></jsp:include>
         </div>
         <div id="m_device_view" style="display: none">
             <jsp:include page="device_view.jsp"></jsp:include>
@@ -136,6 +136,13 @@
 <script src="../markdown_editor/lib/flowchart.min.js"></script>
 <script src="../markdown_editor/lib/jquery.flowchart.min.js"></script>
 <script src="../markdown_editor/editormd.js"></script>
+<script src="../markdown_editor/examples/js/jquery.min.js"></script>
+<script src="../layui/layui.js" charset="utf-8"></script>
+
+<script type="text/html" id="barDemo_device_edit">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
 <script src="../markdown_editor/examples/js/jquery.min.js"></script>
 <script src="../layui/layui.js" charset="utf-8"></script>
 <script>
@@ -189,6 +196,63 @@
                 }
             }
         }
+
+        // content_view
+        // 将temp.md的内容加载到content.jsp中
+        $.ajax({
+            url: "./temp.md",
+            async:false,
+            success: function(md){
+                // alert(md);
+                document.getElementById("md").innerHTML = md;
+            }
+        });
+
+        editormd.markdownToHTML("content_view_jsp", {
+            htmlDecode      : "style,script,iframe",
+            emoji           : true,
+            taskList        : true,
+            tex             : true,  // 默认不解析
+            flowChart       : true,  // 默认不解析
+            sequenceDiagram : true  // 默认不解析
+        });
+
+
+        testEditor = editormd("content_edit_jsp", {
+            width           : "90%",
+            autoHeight      : true,
+            path            : "../markdown_editor/lib/",
+            htmlDecode      : "style,script,iframe",
+            tex             : true,
+            emoji           : true,
+            taskList        : true,
+            flowChart       : true,
+            sequenceDiagram : true
+        });
+
+        $("#insert-btn").click(function(){
+            $.get("./temp.md", function(md){
+                testEditor.appendMarkdown(md);
+            });
+        });
+
+        $("#save-btn").click(function(){
+            var content = encodeURIComponent(testEditor.getMarkdown());
+            // alert(content);
+            $.ajax({
+                type:"POST",
+                url: "/content/update",
+                data: {"content":content},
+                async:false,
+                success: function(){
+                    console.log("success");
+                },
+                error: function(XMLHttpRequest,msg) {
+                    console.log(msg);
+                }
+            });
+            alert("保存成功");
+        });
     });
 </script>
 
@@ -244,7 +308,7 @@
             }
             ,id: 'testReload_course_edit'
         });
-        var $ = layui.$, active = {
+        var $ = layui.$, active1 = {
             reload: function() {
                 var demoReload = $('#course_edit_courseNumber');
                 // alert("reload");
@@ -267,7 +331,7 @@
             // alert("click");
             var type = $(this).data('type');
             // alert(type + "   ---->    " + active[type]);
-            active[type] ? active[type].call(this) : '';
+            active1[type] ? active1[type].call(this) : '';
         });
 
 
@@ -367,51 +431,7 @@
                     break;
             }
         });
-    });
-</script>
-    <%--course_input--%>
 
-<script>
-    layui.use('upload', function(){
-        var $ = layui.jquery
-            ,upload = layui.upload;
-        var uploadInst = upload.render({
-            elem: '#select_file_course_input'
-            ,url: '/course/upload'
-            ,auto: false
-            ,accept:'file'
-            ,bindAction: '#upload_file_course_input'
-            ,done: function(res){
-                console.log(res);
-                //如果上传失败
-                if(res.code > 0){
-                    return layer.msg('上传失败');
-                } else {
-                    return layer.msg('上传成功');
-                }
-            }
-            ,error: function(res){
-                // alert(res.responseText);
-                //演示失败状态，并实现重传
-                var demoText = $('#demoText');
-                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
-                demoText.find('.demo-reload').on('click', function(){
-                    uploadInst.upload();
-                });
-            }
-        });
-    });
-
-</script>
-
-    <%--course_view--%>
-
-
-<script src="../layui/layui.js" charset="utf-8"></script>
-<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
-<script>
-    layui.use('table', function(){
-        var table = layui.table;
 
 
         //展示已知数据
@@ -450,7 +470,7 @@
             }
             ,id: 'testReload_device_view'
         });
-        var $ = layui.$, active = {
+        var $ = layui.$, active2 = {
             reload: function() {
                 var demoReload = $('#course_view_courseNumber');
                 // alert("reload");
@@ -473,22 +493,9 @@
             // alert("click");
             var type = $(this).data('type');
             // alert(type + "   ---->    " + active[type]);
-            active[type] ? active[type].call(this) : '';
+            active2[type] ? active2[type].call(this) : '';
         });
-    });
-</script>
 
-<%--device_edit--%>
-<script type="text/html" id="barDemo_device_edit">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-</script>
-<script src="../markdown_editor/examples/js/jquery.min.js"></script>
-<script src="../layui/layui.js" charset="utf-8"></script>
-<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
-<script>
-    layui.use('table', function(){
-        var table = layui.table;
 
         //展示已知数据
         table.render({
@@ -627,7 +634,7 @@
                     break;
             }
         });
-        var $ = layui.$, active = {
+        var $ = layui.$, active3 = {
             reload: function() {
                 var demoReload = $('#device_edit_deviceNumber_query');
                 // alert("reload");
@@ -650,50 +657,10 @@
             // alert("click");
             var type = $(this).data('type');
             // alert(type + "   ---->    " + active[type]);
-            active[type] ? active[type].call(this) : '';
+            active3[type] ? active3[type].call(this) : '';
         });
-    });
-</script>
 
-<%--device_input--%>
 
-<script>
-
-    layui.use('upload', function(){
-        var $ = layui.jquery
-            ,upload = layui.upload;
-        var uploadInst = upload.render({
-            elem: '#select_file'
-            ,url: '/device/upload'
-            ,auto: false
-            ,accept:'file'
-            ,bindAction: '#upload_file'
-            ,done: function(res){
-                console.log(res);
-                //如果上传失败
-                if(res.code > 0){
-                    return layer.msg('上传失败');
-                } else {
-                    return layer.msg('上传成功');
-                }
-            }
-            ,error: function(res){
-                // alert(res.responseText);
-                //演示失败状态，并实现重传
-                var demoText = $('#demoText');
-                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
-                demoText.find('.demo-reload').on('click', function(){
-                    uploadInst.upload();
-                });
-            }
-        });
-    });
-</script>
-
-<%--device_view--%>
-<script>
-    layui.use('table', function(){
-        var table = layui.table;
 
         //展示已知数据
         table.render({
@@ -735,7 +702,7 @@
             }
             ,id: 'testReload_device_view'
         });
-        var $ = layui.$, active = {
+        var $ = layui.$, active4 = {
             reload: function() {
                 var demoReload = $('#device_view_deviceNumber_query');
                 // alert("reload");
@@ -758,9 +725,73 @@
             // alert("click");
             var type = $(this).data('type');
             // alert(type + "   ---->    " + active[type]);
-            active[type] ? active[type].call(this) : '';
+            active4[type] ? active4[type].call(this) : '';
         });
     });
 </script>
+
+<script>
+
+    layui.use('upload', function(){
+        var $ = layui.jquery
+            ,upload = layui.upload;
+        var uploadInst = upload.render({
+            elem: '#select_file_course_input'
+            ,url: '/course/upload'
+            ,auto: false
+            ,accept:'file'
+            ,bindAction: '#upload_file_course_input'
+            ,done: function(res){
+                console.log(res);
+                //如果上传失败
+                if(res.code > 0){
+                    return layer.msg('上传失败');
+                } else {
+                    return layer.msg('上传成功');
+                }
+            }
+            ,error: function(res){
+                // alert(res.responseText);
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function(){
+                    uploadInst.upload();
+                });
+            }
+        });
+
+
+        var uploadInst = upload.render({
+            elem: '#select_file'
+            ,url: '/device/upload'
+            ,auto: false
+            ,accept:'file'
+            ,bindAction: '#upload_file'
+            ,done: function(res){
+                console.log(res);
+                //如果上传失败
+                if(res.code > 0){
+                    return layer.msg('上传失败');
+                } else {
+                    return layer.msg('上传成功');
+                }
+            }
+            ,error: function(res){
+                // alert(res.responseText);
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function(){
+                    uploadInst.upload();
+                });
+            }
+        });
+    });
+
+</script>
+
+
+
 </body>
 </html>
